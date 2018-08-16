@@ -1,11 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const User = require('../models/users-model');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET, JWT_EXPIRY } = require('../config');
+const jwtAuth = passport.authenticate('jwt', { session: false, failureRedirect: '/api/login' });
 
-const {User} = require('../models/users-model');
+
+console.log('can you hear me USER router!')
 
 const router = express.Router();
 
 const jsonParser = bodyParser.json();
+
+
+const localAuth = passport.authenticate('local', { session: false });
+
 
 
 router.post('/',jsonParser,(req,res) =>{

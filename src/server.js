@@ -1,25 +1,70 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const morgan = require('morgan');
+require('dotenv').config({ path: require('path').resolve(__dirname, '../.env') })
 
-const app = express();
-
+// All my dependencies
 const bodyParser = require('body-parser');
+const express = require('express');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const path = require('path');
+const passport = require('passport');
+const cors = require('cors');
+
+
+
+//All my router connections
+
+const { localStrategy, jwtStrategy } = require('./auth/strategy-auth');
+
+const routerPoint = require('./routers/router-points');
+const wolframRouter = require('./routers/router-wolf');
+const userRouter = require('./routers/users-router');
+const authRouter = require('./routers/router-auth');
+const pkg = require('../package.json');
+const { DATABASE_URL, PORT } = require('./config');
+const app = express();
 const jsonParser = bodyParser.json();
 
 
-const routerPoint = require('./routers/router-points');
-const { DATABASE_URL, PORT } = require('./config');
 
-app.use(morgan('common'));
 
+
+//Middleware
 app.use(express.json());
 app.use(bodyParser.json());
-
-app.use(routerPoint);
-
-
+app.use(cors());
+app.use(express.static(path.resolve(__dirname, 'front-end')))
 mongoose.Promise = global.Promise;
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+//Logging
+app.use(morgan('common'));
+
+//My routes!
+app.use('/api',authRouter);
+app.use('/api',routerPoint);
+app.use('/api',userRouter);
+app.use('/wolfram', wolframRouter);
+
+
+
+// app.get('/', (req, res) => res.end(`NextCiti API ${pkg.version}`))
+
+
+
+
+//CORS
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers',"Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+  if (req.method === 'OPTIONS') {
+    return res.send(204);
+  }
+  next();
+});
+
+const jwtAuth = passport.authenticate('jwt',{session: false});
 
 
 

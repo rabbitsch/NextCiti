@@ -1,24 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
+const cors = require('cors');
+const app = express();
 
+
+app.use(cors());
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 const City = require('../models/city');
 
-
-
-// console.log(City)
-
-console.log('can you hear me router!')
-
-mongoose.Promise = global.Promise;
-
+console.log('can you hear me CRUD router!')
 
 // my GET mongo endpoint
-router.get('/',(req,res) =>{
+router.get('/city-reviews',(req,res) =>{
   City
     .find()
     .then(posts =>{
@@ -31,7 +28,7 @@ router.get('/',(req,res) =>{
   });
 
 //my Get mongo endpoint by ID
-router.get('/:id',(req,res)=>{
+router.get('/city-reviews/:id',(req,res)=>{
   City
     .findById(req.params.id)
     .then(post => {
@@ -43,14 +40,14 @@ router.get('/:id',(req,res)=>{
     });
 });
 
-router.post('/test',function(req,res){
-  res.send('can you hear me post and stuff')
-});
+// router.post('/test',function(req,res){
+//   res.send('can you hear me post and stuff')
+// });
 
 
 
 //My Post Endpoint for Mongo
-router.post('/',(req,res)=>{
+router.post('/city-reviews',cors,(req,res)=>{
   const requiredkeys = ['name','pros','cons'];
   for(let i = 0;i<requiredkeys.length;i++){
     const selector = requiredkeys[i];
@@ -77,7 +74,7 @@ router.post('/',(req,res)=>{
 
 
 //My delete endpoint
- router.delete('/:id', (req, res) => {
+ router.delete('/city-reviews/:id', (req, res) => {
   City
     .findByIdAndRemove(req.params.id)
     .then(() => {
@@ -92,7 +89,7 @@ router.post('/',(req,res)=>{
 
 
 // my put endpoint
-router.put('/:id', (req, res) => {
+router.put('/city-reviews/:id', (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: 'Request path id and request body id values must match'

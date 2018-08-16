@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+console.log('can you hear me user model!')
 
 mongoose.promise=global.promise
 

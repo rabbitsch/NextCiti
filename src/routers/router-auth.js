@@ -9,6 +9,7 @@ const router = express.Router();
 console.log('can you hear me auth router!!')
 
 const createAuthToken = function(user){
+  console.log('hi! create Token')
   return jwt.sign({user}, config.JWT_SECRET,{
     subject: user.username,
     expiresIn: config.JWT_EXPIRY,
@@ -18,12 +19,16 @@ const createAuthToken = function(user){
 
 const localAuth = passport.authenticate('local', {session:false});
 router.use(bodyParser.json());
+
+
 router.post('/login',localAuth, (req,res)=>{
   const authToken = createAuthToken(req.user.serialize());
   res.json({authToken});
 });
 
 const jwtAuth = passport.authenticate('jwt',{session:false});
+
+//when the user gets a new auth before the old one expires
   router.post('/refresh', jwtAuth,(req,res)=>{
     const authToken = creatAuthToken(req.user);
     res.json({authToken});

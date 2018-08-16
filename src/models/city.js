@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+
+console.log('can you hear me city model!')
 mongoose.promise = global.promise;
 
 const schema = new mongoose.Schema({

@@ -1,23 +1,35 @@
 {
-  "name": "nodecapstone",
+  "name": "NextCiti",
   "version": "1.0.0",
   "description": "\"my capstone project\"",
   "main": "server.js",
   "dependencies": {
+    "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chai": "^4.1.2",
+    "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "faker": "^4.1.0",
+    "jsonwebtoken": "^8.3.0",
     "mocha": "^5.2.0",
     "mocha-http": "^0.2.5",
     "mongoose": "^5.2.7",
     "morgan": "^1.9.0",
-    "nodemon": "^1.18.3"
+    "nodemon": "^1.18.3",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai-http": "^4.0.0"
+  },
   "scripts": {
-    "test": "mocha",
-    "start": "node server.js"
+    "start": "node src/server.js",
+    "test": "mocha test/routers/endpoint-test.js",
+    "watch": "nodemon src/server.js"
+
   },
   "author": "Kevin Schmitz",
   "license": "ISC"
