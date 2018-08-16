@@ -1,11 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const cors = require('cors');
-const app = express();
-
-
-app.use(cors());
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
@@ -16,8 +11,8 @@ console.log('can you hear me CRUD router!')
 
 // my GET mongo endpoint
 router.get('/city-reviews',(req,res) =>{
-  City
-    .find()
+  console.log('GET /city-reviews');
+  City.find()
     .then(posts =>{
       res.json(posts.map(post=> post.serialize()));
     })
@@ -47,7 +42,8 @@ router.get('/city-reviews/:id',(req,res)=>{
 
 
 //My Post Endpoint for Mongo
-router.post('/city-reviews',cors,(req,res)=>{
+router.post('/city-reviews',(req,res)=>{
+  console.log('POST /city-reviews');
   const requiredkeys = ['name','pros','cons'];
   for(let i = 0;i<requiredkeys.length;i++){
     const selector = requiredkeys[i];
@@ -55,7 +51,7 @@ router.post('/city-reviews',cors,(req,res)=>{
     if(!(selector in req.body)){
       const message = `${selector} is not in the body`
       console.log(message);
-      return res.staus(400).send(message);
+      return res.status(400).send(message);
       }
     }
     City

@@ -43,7 +43,7 @@ app.use(morgan('common'));
 //My routes!
 app.use('/api',authRouter);
 app.use('/api',routerPoint);
-app.use('/api',userRouter);
+app.use('/api/users',userRouter);
 app.use('/wolfram', wolframRouter);
 
 

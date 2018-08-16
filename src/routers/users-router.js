@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const User = require('../models/users-model');
+const { User } = require('../models/users-model');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET, JWT_EXPIRY } = require('../config');
@@ -87,11 +87,11 @@ router.post('/',jsonParser,(req,res) =>{
     });
   }
 
-  let{username,password,firstname='',lastname=''} = req.body;
+  let{username,password,firstName = '',lastName = ''} = req.body;
   firstName = firstName.trim();
   lastName = lastName.trim();
 
-  return user.find({username})
+  return User.find({username})
     .count()
     .then(count =>{
       if(count > 0){
@@ -102,7 +102,7 @@ router.post('/',jsonParser,(req,res) =>{
           location:'username'
         });
       }
-      return User.hashpassword(password);
+      return User.hashPassword(password);
     })
     .then(hash=>{
       return User.create({
@@ -115,10 +115,13 @@ router.post('/',jsonParser,(req,res) =>{
     .then(user=>{
       return res.status(201).json(user.serialize());
     })
-    .catch(err =>{
+    .catch(err => {
+      console.error(err);
+
       if(err.reason === 'ValidationError'){
         return res.status(err.code).json(err);
       }
+
       res.status(500).json({code:500,message:'Internal server error'});
     });
 });
