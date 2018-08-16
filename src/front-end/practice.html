@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+      <link href="grid.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+  <section class="row">
+    <div class="col-8">
+    <div class="content-box">
+      <div id="formcontentlogin">
+        <form action="#" id="daformlog">
+          <label for="loginname"></label>
+          <input type="text" placeholder= "Username" id="js-user">
+          </input>
+          <label for="loginpass"></label>
+          <input type="text" placeholder= "Password" id="js-pass">
+          </input>
+        <button class="login-but" type="submit">Login
+        </button>
+       </form>
+    </div>
+  </section>
+
+  <section class="row">
+    <div class="col-8">
+    <div class="content-box">
+      <div id="formcontentreg">
+        <form action="#" id="daformreg">
+          <label for="registeruser"></label>
+          <input type="text" placeholder= "Username" id="reguser">
+          </input>
+          <label for="registerpass"></label>
+          <input type="text" placeholder= "Password" id="regpass">
+          </input>
+          <label for="regfirstnm"></label>
+          <input type="text" placeholder= "First Name" id="regfirst">
+          </input>
+          <label for="reglastnm"></label>
+          <input type="text" placeholder= "Last Name" id="reglast">
+          </input>
+        <button class="create-but" type="submit">Create Login
+        </button>
+       </form>
+    </div>
+  </section>
+
+<section class="row">
+    <div class ="col-8">
+
+//Problem : cross origin problem with posts
+    <form id="formpost">
+      <input id ="cityname">city</input>
+      <textarea id="pro" rows = "4" style = "width: 50%" >Enter Post text here...</textarea>
+      <textarea id="cons" rows = "4" style = "width: 50%" >Enter Post text here...</textarea>
+      <button class="post" type="submit">POST
+      </button>
+    </form>
+//Problem : multiple Get Request status 500
+    <form id="formget">
+      <input id ="mytest" rows = "4" style = "width: 50%" ></input>
+      <button id="but-sub" type="submit">GET
+      </button>
+    </form>
+  </div>
+</section>
+
+    <p id = "getnotes"></p>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
