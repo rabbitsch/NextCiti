@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Learn about new cities to move to">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width">
+    <title>NextCiti</title>
+    <link href="index-main.css" rel="stylesheet" type="text/css" />
+    <link href="grid.css" rel="stylesheet" type="text/css" />
+
+  </head>
+  <body>
+    <header role ="banner">
+       <div class="row">
+        <div class="col-12">
+          <div id="topTile">
+            <h1 id="title"></h1>
+          </div><!-- /#topTile -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div id="topTile">
+            <h1 id="title-2"></h1>
+           <h2 id = "latlon"></h2>
+          </div>
+          <div class = "col-12">
+           <a class="out-but" href = 'https://www.indeed.com'>Local Jobs</a>
+
+           <a class ="out-but" href = 'https://www.craigslist.org'>Apartments</a>
+          </div>
+          </div>
+          </div><!-- /#topTile -->
+        </div>
+      </div> <!--/# ending the row -->
+
+    </header>
+  <main>
+     <section class="container-form" role="region">
+        <div class="row">
+            <div class="col-7 offset-3">
+              <form action="#" id="daform">
+                <label for="js-query"></label>
+                <input type="text" placeholder= "NextCiti to Explore" id="js-query">
+                </input>
+              <button class="sub-but" type="submit">NextCiti
+              </button>
+              </form>
+            </div>
+        </div><!-- /.row -->
+      </section><!-- /.container-form -->
+      <section class = "container-note" role="region">
+        <div class = "row">
+          <div class ="col-12">
+            <form id="formpost">
+            <textarea class="pros" rows = "4" style = "width: 50%" name="comment" form="usrform">Enter Pros text here...</textarea>
+          <!-- </div> -->
+          <!-- <div class = "col-5 offset-1"> -->
+            <textarea class ="cons" rows = "4" style = "width: 50%" name="comment" form="usrform">Enter Cons text here...</textarea>
+          </form>
+          </div>
+          <button id="postNote" type="submit">Post Note</button>
+        </div>
+      </section>
+    <div class="city-contents"  aria-live="assertive" role="region">
+        <div class="row">
+          <div class="col-10 offset-1">
+            <div class="content-box">
+              <section id="wolfcontent" role="region"></section>
+            </div><!-- /.content-box -->
+
+          </div><!-- /.col-10 -->
+        </div>
+
+        <section class="row" role="region">
+          <div class="col-5 offset-1">
+            <div class="content-box">
+              <div id="mapcontent">
+                <div id="map">
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-5">
+          <div class="content-box">
+            <div id="yelpcontent">
+              <div class="yelp"></div>
+            </div>
+          </div>
+          </div>
+        </section>
+      </div>
+
+  </main>
+       <!-- <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+      }
+    </script> -->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrONz6G6O_daodeqdwd8dw50cA6mThqCE&callback=initMap"
+    async defer></script> -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="index-main.js"></script>
+  </body>
+</html>
