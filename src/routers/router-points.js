@@ -12,8 +12,8 @@ console.log('can you hear me CRUD router!')
 // my GET mongo endpoint
 router.get('/city-reviews',(req,res) =>{
   console.log('GET /city-reviews');
-  City.find()
-    .then(posts =>{
+  City
+  .find().then(posts =>{
       res.json(posts.map(post=> post.serialize()));
     })
     .catch(err =>{
@@ -24,11 +24,11 @@ router.get('/city-reviews',(req,res) =>{
 
 //my Get mongo endpoint by ID
 router.get('/city-reviews/:id',(req,res)=>{
+console.log(req.params)
+
   City
     .findById(req.params.id)
-    .then(post => {
-      res.json(post.serialize());
-    })
+    .then(post => res.json(post.serialize()))
       .catch(error =>{
       console.log(error);
       res.status(500).json({error:'mother of pearl, something went wrong'})
@@ -39,12 +39,11 @@ router.get('/city-reviews/:id',(req,res)=>{
 //   res.send('can you hear me post and stuff')
 // });
 
-
-
 //My Post Endpoint for Mongo
 router.post('/city-reviews',(req,res)=>{
-  console.log('POST /city-reviews');
+
   const requiredkeys = ['name','pros','cons'];
+  console.log({ req });
   for(let i = 0;i<requiredkeys.length;i++){
     const selector = requiredkeys[i];
     console.log(req.body)
@@ -100,8 +99,7 @@ router.put('/city-reviews/:id', (req, res) => {
     }
   });
 
-  City
-    .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+  City.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
     .then(updatedPost => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });

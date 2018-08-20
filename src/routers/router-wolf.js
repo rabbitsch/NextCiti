@@ -8,7 +8,7 @@ const WOLFRAM_APP_ID = process.env.WOLFRAM_APP_ID
 
 console.log({ WOLFRAM_APP_ID: process.env.WOLFRAM_APP_ID });
 
-// const WOLFRAM_API_URL = `${WOLFRAM_BASE_URL}?appid=${WOLFRAM_APP_ID}&output=json`
+const WOLFRAM_API_URL = `${WOLFRAM_BASE_URL}?appid=${WOLFRAM_APP_ID}&output=json`
 
 router.get('/', (req, res) => {
   axios.get(`${WOLFRAM_API_URL}&input=${req.query.input}`)

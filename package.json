@@ -27,8 +27,11 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "test": "mocha test/routers/endpoint-test.js",
-    "watch": "nodemon src/server.js"
+    "watch": "nodemon src/server.js",
+    "test": "mocha test/auth-test.js"
+
+
+
 
   },
   "author": "Kevin Schmitz",

@@ -27,7 +27,7 @@ router.post('/',jsonParser,(req,res) =>{
       code:422,
       reason:'ValidationError',
       message:'Missing field',
-      location: missingField
+      location: missingFields
     });
   }
   const stringFields = ['username','password','firstname','lastname'];

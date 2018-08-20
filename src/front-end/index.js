@@ -1,8 +1,4 @@
 
-
-
-
-
 //register button
 $(function(){
 $("#daformreg").submit((event)=>{
@@ -16,7 +12,7 @@ $("#daformreg").submit((event)=>{
   console.log(username)
   console.log(lastName)
     $.ajax({
-        url: '/api/user',
+        url: '/api/users',
         type:"POST",
         data: {
           username:username,
@@ -52,9 +48,8 @@ $(function(){
   var $loginForm = $("#daformlog");
   console.log({ $loginForm });
 $loginForm.submit(function(event){
-  console.log('submitted');
+  console.log('login button pressed');
   event.preventDefault();
-  console.log('can you hear me register button')
   const username= $('#loguser').val();
   const password= $('#logpass').val();
 
@@ -66,13 +61,14 @@ $loginForm.submit(function(event){
       password:password
     },
     success: function(response){
+      console.log(response)
       if(response){
         $('#loguser').val(" ");
         $('#logpass').val(" ");
       }
     },
   error: (error)=>{
-    console.log(JSON.stringify(err) + 'this be the eerrrrooorrrrr')
+    console.log(JSON.stringify(error) + 'this be the eerrrrooorrrrr')
   }
 
   });
@@ -140,33 +136,35 @@ $(function(){
 $("#formpost").submit(function(event){
   event.preventDefault();
   // console.log('can you hear me post button')
-  let queryTarget= $(event.currentTarget).find('#procons');
-  let findings = queryTarget.val();
-  postApiData(findings);
+  const name= $('#cityname').val();
+  const pros= $('#pros').val();
+  const cons= $('#cons').val();
 
 
-  queryTarget.val(" ");
-  })
-})
 
-
-//Post AJAX
-
-function postApiData(data){
-  console.log(data)
 $.ajax({
   url: `/api/city-reviews`,
   type:"POST",
-  data: JSON.stringify({data}),
-  success: function(data){
-    console.log(data)
+  headers: {
+    'Content-Type': 'application/json',
   },
-  dataType: "json",
-  contentType: "application/json"
+  data: JSON.stringify({
+    name:name,
+    pros:pros,
+    cons:cons
+  }),
+  success: function(response){
+    console.log(JSON.stringify(response))
+    if(response){
+      $('#cityname').val(" ");
+      $('#pros').val(" ");
+      $('#cons').val(" ");
 
-})
-error: (error)=>{
-  console.log('it went down in ERRORRRR post')
-};
-
-}
+    }
+  },
+  error:(error)=>{
+    console.log(JSON.stringify(error) + 'the post error man')
+    }
+      })
+    });
+  });
