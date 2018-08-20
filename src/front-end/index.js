@@ -168,3 +168,76 @@ $.ajax({
       })
     });
   });
+
+
+
+
+//drop down button functio
+function myDropbutton() {
+      document.getElementById("myDropdown").classList.toggle("show");
+
+
+  // Close the dropdown menu if the user clicks outside of it
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+  };
+
+
+
+
+
+//Get All button
+  $(function(){
+  $("#formgetall").submit(function(event){
+    event.preventDefault();
+  //GET Ajax
+
+    $.ajax({
+      url:`/api/city-reviews`,
+      type:"GET",
+      success:function(data){
+        console.log(data)
+            renderGetallData(data);
+      },
+      dataType:"json",
+      contentType:"application/json"
+    });
+  })
+})
+
+
+  //Render GET html
+  function renderGetallData(data){
+    console.log(data)
+
+    let html = '<ul class="mynoteitems">'
+    data.forEach((value =>{
+      console.log(value)
+      html += `<li class="note-list">
+      <h1 class='notetitle'>${value.name}</h1>
+      <h3>Pros</h3>
+      <p class='notepro'>${value.pros}</p>
+      <h3>Cons</h3>
+      <p class='notecon'>${value.cons}</p>
+      <button class='update-but'>Update</button>
+      <button class='delete-but'>Delete</button>
+      </li>`
+
+    }))
+
+
+  html += '</ul>';
+  $("#getnotes").html(html);
+
+}
