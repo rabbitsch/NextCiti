@@ -1,0 +1,228 @@
+html{
+  width:100%;
+  text-align: center;
+  font-family: 'PT Mono', monospace;
+
+
+}
+
+body{
+background:url('https://s3-us-west-1.amazonaws.com/schmitzbucket/adult-adventure-air-1272392.jpg') fixed no-repeat;
+background-position: center;
+background-size: cover;
+ -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+}
+
+
+#title{
+  font-family: 'PT Mono', monospace;
+	font-size: 9vw;
+	letter-spacing: 4px;
+  /* border:5px solid white; */
+	width: 245px;
+	/* margin-top: 32px; */
+	/* padding-top: 7px;
+	padding-left: 5px; */
+  padding: 30px 30px;
+	top: 255px;
+	left: 40%;
+  /* display: inline; */
+}
+
+#title:before{
+   font-family: 'PT Mono', monospace;
+  content: 'Next';
+  color: white;
+}
+#title:after{
+content: 'Citi';
+color: red;
+}
+
+ #map {
+        height: 100px;
+        width:100%;
+      }
+
+
+#front{
+
+  font-size: 20px;
+  text-align: center;
+  color:ghostwhite;
+  /* text-shadow: 5px 5px 5px whitesmoke; */
+  border-radius: 2%;
+
+}
+
+input {
+  border: none;
+  border-bottom: 3px solid ghostwhite;
+  border-radius: 0px;
+  margin-bottom: 30px;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  font-size: 45px;
+  background: none;
+}
+
+
+.sub-but{
+  border: 3px solid red;
+  padding: 8px 13px;
+  color: ghostwhite;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  transition: color 0.25s linear;
+  text-shadow: 0 0 3px #555555;
+  /* position: relative; */
+  border-radius: 0;
+}
+
+#postNote, .update-but, .delete-but{
+  border: 3px solid red;
+  padding: 8px 13px;
+  color: ghostwhite;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  transition: color 0.25s linear;
+  text-shadow: 0 0 3px #555555;
+  /* position: relative; */
+  border-radius: 0;
+
+}
+
+#cityname{
+  color:lightgray;
+}
+
+button:hover{
+  background: darkred;
+}
+
+.out-but{
+  border: 3px solid clear ;
+  padding: 8px 13px;
+  color: ghostwhite;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  transition: color 0.25s linear;
+  text-shadow: 0 0 3px #555555;
+  margin-bottom: 40px;
+  border-radius: 10px;
+
+}
+
+#wolfcontent{
+  color: white;
+}
+
+textarea{
+  background: lightgrey;
+  color: red;
+  border: 3px solid silver;
+  border-radius: 5px;
+  height:auto;
+}
+
+#title-2{
+  color: lightgray;
+
+}
+
+#latlon{
+  color: azure;
+/* text-shadow: 5px 5px 5px whitesmoke;  */
+
+}
+
+#noteContainer{
+  color: white;
+}
+
+.note-list{
+  display:inline-block;
+  border: 5px solid red;
+  padding: 25px;
+  margin: 25px;
+  border-radius: 10%;
+}
+
+
+.navbar {
+    overflow: hidden;
+    /* background-color: #333; */
+
+}
+
+.navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+    background-color: red;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+}
+
+
+.dropdown-content a:hover {background-color: #ddd}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}

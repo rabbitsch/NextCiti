@@ -43,13 +43,13 @@ console.log(req.params)
 router.post('/city-reviews',(req,res)=>{
 
   const requiredkeys = ['name','pros','cons'];
-  console.log({ req });
+  // console.log({ req });
   for(let i = 0;i<requiredkeys.length;i++){
     const selector = requiredkeys[i];
-    console.log(req.body)
+    // console.log(req.body)
     if(!(selector in req.body)){
       const message = `${selector} is not in the body`
-      console.log(message);
+      // console.log(message);
       return res.status(400).send(message);
       }
     }

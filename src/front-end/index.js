@@ -14,12 +14,12 @@ $("#daformreg").submit((event)=>{
     $.ajax({
         url: '/api/users',
         type:"POST",
-        data: {
+        data: JSON.stringify({
           username:username,
           password:password,
           firstName:firstName,
           lastName:lastName
-        },
+        }),
         success: function(response){
           console.log(JSON.stringify(response))
           if(response){
@@ -28,6 +28,9 @@ $("#daformreg").submit((event)=>{
             $('#regfirst').val('');
             $('#reglast').val('');
           }
+  },
+      headers: {
+    'Content-Type': 'application/json',
   },
   error:(err)=>{
     console.log(JSON.stringify(err) + 'this be de eerrrrooorrrrr')
@@ -56,17 +59,24 @@ $loginForm.submit(function(event){
   $.ajax({
     url: `/api/login`,
     type:"POST",
-    data: {
+    data:JSON.stringify({
       username:username,
       password:password
-    },
+    }),
     success: function(response){
       console.log(response)
+      sessionStorage.setItem('token', response.authToken);
       if(response){
+
         $('#loguser').val(" ");
         $('#logpass').val(" ");
       }
     },
+    headers: {
+      'Content-Type': 'application/json'
+    },
+
+
   error: (error)=>{
     console.log(JSON.stringify(error) + 'this be the eerrrrooorrrrr')
   }
@@ -78,7 +88,7 @@ $loginForm.submit(function(event){
 
 
 
-// Get button  -- Problem is multiple gets
+// Get button
 $(function(){
 $("#formget").submit(function(event){
   event.preventDefault();
@@ -197,47 +207,199 @@ function myDropbutton() {
 
 
 
-//Get All button
-  $(function(){
-  $("#formgetall").submit(function(event){
-    event.preventDefault();
-  //GET Ajax
+// //Get All button
+//   $(function(){
+//   $("#formgetall").submit(function(event){
+//     event.preventDefault();
+//
+//   //GET Ajax
+//
+//     $.ajax({
+//       url:`/api/city-reviews`,
+//       type:"GET",
+//       success:function(data){
+//         console.log(data)
+//             renderGetallData(data);
+//       },
+//       dataType:"json",
+//       contentType:"application/json"
+//     });
+//   })
+// })
+//
+//
+//   //Render GET html
+//   function renderGetallData(data){
+//     console.log(data)
+//
+//     let html = '<ul class="mynoteitems">'
+//     data.forEach((value =>{
+//       console.log(value)
+//       html += `<li class="note-list">
+//       <h1 class='notetitle'>${value.name}</h1>
+//       <h3>Pros</h3>
+//       <p class='notepro'>${value.pros}</p>
+//       <h3>Cons</h3>
+//       <p class='notecon'>${value.cons}</p>
+//       <button class='update-but'>Update</button>
+//       <button class='delete-but'>Delete</button>
+//       </li>`
+//
+//     }))
+//
+//
+//   html += '</ul>';
+//   $("#getnotes").html(html);
+//
+// }
 
-    $.ajax({
-      url:`/api/city-reviews`,
-      type:"GET",
-      success:function(data){
-        console.log(data)
-            renderGetallData(data);
-      },
-      dataType:"json",
-      contentType:"application/json"
-    });
+
+// Render Get all info
+  $(function(){
+  $("#homeward").click(function(event){
+    console.log('can you hear me render button!!')
+    event.preventDefault();
+    $('#getnotes').hide();
+    $('#containsAll').show();
+    })
   })
+
+
+
+
+
+// Get All and Render notes screen
+
+$(function(){
+$("#formgetall").submit(function(event){
+  event.preventDefault();
+  // $('#containsAll').hide();
+//GET Ajax
+
+  $.ajax({
+    url:`/api/city-reviews`,
+    type:"GET",
+    success:function(data){
+      console.log(data)
+          renderGetallData(data);
+    },
+    dataType:"json",
+    contentType:"application/json"
+  });
+
+  // $('#containsAll').html(renderGetallData());
+})
 })
 
 
-  //Render GET html
-  function renderGetallData(data){
-    console.log(data)
+//Render GET html
+function renderGetallData(data){
+  console.log(data)
 
-    let html = '<ul class="mynoteitems">'
-    data.forEach((value =>{
-      console.log(value)
-      html += `<li class="note-list">
-      <h1 class='notetitle'>${value.name}</h1>
-      <h3>Pros</h3>
-      <p class='notepro'>${value.pros}</p>
-      <h3>Cons</h3>
-      <p class='notecon'>${value.cons}</p>
-      <button class='update-but'>Update</button>
-      <button class='delete-but'>Delete</button>
-      </li>`
+  let html = '<ul class="mynoteitems">'
+  data.forEach(value =>{
+    console.log(value)
+    html += `<li class="note-list">
+    <form id='listForm'>
+    <h1 class='notetitle'>${value.name}</h1>
+    <h3>Pros</h3>
+    <p class='notepro'>${value.pros}</p>
+    <h3>Cons</h3>
+    <p class='notecon'>${value.cons}</p>
+    <button class='update-but'>Update</button>
+    <button class='delete-but'>Delete</button>
+    </form>
+    </li>`
 
-    }))
+  })
 
 
-  html += '</ul>';
-  $("#getnotes").html(html);
+html += '</ul>';
+$('#containsAll').hide();
+ $('#getnotes').html(html);
+ $('#getnotes').show();
 
 }
+
+
+
+
+
+//update button
+$(function(){
+$(".update-but").click(function(event){
+  event.preventDefault();
+  // console.log('can you hear me post button')
+  const name= $('#cityname').val();
+  const pros= $('#pros').val();
+  const cons= $('#cons').val();
+
+
+
+$.ajax({
+  url: `/api/city-reviews/${data}`,
+  type:"PUT",
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  data: JSON.stringify({
+    name:name,
+    pros:pros,
+    cons:cons
+  }),
+  success: function(response){
+    console.log(JSON.stringify(response))
+    if(response){
+      $('#cityname').val(" ");
+      $('#pros').val(" ");
+      $('#cons').val(" ");
+
+    }
+  },
+  error:(error)=>{
+    console.log(JSON.stringify(error) + 'the post error man')
+    }
+      })
+    });
+  });
+
+
+
+
+//Delete Button
+  $(function(){
+  $(".delete-but").click(function(event){
+    event.preventDefault();
+    // console.log('can you hear me post button')
+    const name= $('#cityname').val();
+    const pros= $('#pros').val();
+    const cons= $('#cons').val();
+
+
+
+  $.ajax({
+    url: `/api/city-reviews/${data}`,
+    type:"DELETE",
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: JSON.stringify({
+      name:name,
+      pros:pros,
+      cons:cons
+    }),
+    success: function(response){
+      console.log(JSON.stringify(response))
+      if(response){
+        $('#cityname').val(" ");
+        $('#pros').val(" ");
+        $('#cons').val(" ");
+
+      }
+    },
+    error:(error)=>{
+      console.log(JSON.stringify(error) + 'the post error man')
+      }
+        })
+      });
+    });
