@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const router = express.Router();
 
+router.use(bodyParser());
+
 console.log('can you hear me auth router!!')
 
 const createAuthToken = function(user){

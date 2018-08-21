@@ -55,11 +55,12 @@ $loginForm.submit(function(event){
   event.preventDefault();
   const username= $('#loguser').val();
   const password= $('#logpass').val();
-
+console.log(username)
+console.log(password)
   $.ajax({
-    url: `/api/login`,
+    url: '/api/login',
     type:"POST",
-    data:JSON.stringify({
+    data:({
       username:username,
       password:password
     }),
@@ -72,10 +73,6 @@ $loginForm.submit(function(event){
         $('#logpass').val(" ");
       }
     },
-    headers: {
-      'Content-Type': 'application/json'
-    },
-
 
   error: (error)=>{
     console.log(JSON.stringify(error) + 'this be the eerrrrooorrrrr')
@@ -403,3 +400,48 @@ $.ajax({
         })
       });
     });
+
+
+
+//Rendering registration
+$(function(){
+$(".sign-but").click(function(event){
+  event.preventDefault();
+  $("#formcontentlogin").hide();
+  renderRegister();
+})
+})
+
+
+
+
+
+
+function renderRegister(){
+
+let html1 =
+  `
+      <div class="content-box">
+        <div id="formcontentreg">
+          <form action="#" id="daformreg">
+            <label for="registeruser"></label>
+              <input type="text" placeholder= "Username" id="reguser">
+              </input>
+                <label for="registerpass"></label>
+              <input type="text" placeholder= "Password" id="regpass">
+              </input>
+                <label for="regfirstnm"></label>
+              <input type="text" placeholder= "First Name" id="regfirst">
+              </input>
+                <label for="reglastnm"></label>
+              <input type="text" placeholder= "Last Name" id="reglast">
+              </input>
+            <button class="create-but" type="submit">Create Login
+            </button>
+          </form>
+        </div>
+      </div>
+`
+
+$(".contentformlogin").html(html1)
+}

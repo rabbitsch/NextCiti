@@ -77,7 +77,7 @@ function renderWolfData(data){
 
 //Lat and long Title
 function geocodingData(search){
-  
+
 
   const params = {
     q: search,
