@@ -70,6 +70,9 @@ router.post('/city-reviews',(req,res)=>{
 
 //My delete endpoint
  router.delete('/city-reviews/:id', (req, res) => {
+   console.log(req.params.id)
+   console.log(req.body)
+   console.log(">>>>>>>>>>>>>>>>")
   City
     .findByIdAndRemove(req.params.id)
     .then(() => {
@@ -85,6 +88,10 @@ router.post('/city-reviews',(req,res)=>{
 
 // my put endpoint
 router.put('/city-reviews/:id', (req, res) => {
+  // console.log(req.params.id)
+  // console.log(">>>>>>>>>>>>>")
+  // console.log(req.body)
+
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: 'Request path id and request body id values must match'
@@ -99,7 +106,8 @@ router.put('/city-reviews/:id', (req, res) => {
     }
   });
 
-  City.findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+  City
+    .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
     .then(updatedPost => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Something went wrong' }));
 });

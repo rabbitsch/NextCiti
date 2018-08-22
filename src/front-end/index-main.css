@@ -1,3 +1,9 @@
+
+*{
+  box-sizing: border-box;
+}
+
+
 html{
   width:100%;
   text-align: center;
@@ -13,6 +19,7 @@ background-size: cover;
  -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
+  padding-bottom: 50px;
 }
 
 
@@ -41,10 +48,7 @@ content: 'Citi';
 color: red;
 }
 
- #map {
-        height: 100px;
-        width:100%;
-      }
+
 
 
 #front{
@@ -52,8 +56,16 @@ color: red;
   font-size: 20px;
   text-align: center;
   color:ghostwhite;
-  /* text-shadow: 5px 5px 5px whitesmoke; */
   border-radius: 2%;
+
+}
+
+.contentformlogin{
+  border:3px solid white;
+  padding: 20px 10px;
+  border-radius: 5%;
+  background: rgba(255, 255, 255, 0.25);
+  display: block;
 
 }
 
@@ -64,17 +76,17 @@ input {
   margin-bottom: 30px;
   color: white;
   -webkit-font-smoothing: antialiased;
-  font-size: 45px;
+  font-size: 20px;
   background: none;
 }
 
 
-.sub-but{
+.sub-but-log,.sign-but,.create-but,.sub-but-search{
   border: 3px solid red;
   padding: 8px 13px;
   color: ghostwhite;
-  font-size: 30px;
-  font-weight: 400;
+  font-size: 20px;
+  /* font-weight: 400; */
   letter-spacing: 2px;
   background: rgba(255, 255, 255, 0.25);
   transition: color 0.25s linear;
@@ -98,15 +110,29 @@ input {
 
 }
 
-#cityname{
+#citynameHere{
   color:lightgray;
+}
+
+
+#introContent{
+  color: ghostwhite;
+  float: left;
+  font-size: 20pt;
+  text-align: left;
+  padding-bottom: 20px;
+  padding-top: 0px;
+
+  width: 100%;
+  /* list-style: none; */
+  line-height: 120%;
 }
 
 button:hover{
   background: darkred;
 }
 
-.out-but{
+/* .job-but{
   border: 3px solid clear ;
   padding: 8px 13px;
   color: ghostwhite;
@@ -119,7 +145,7 @@ button:hover{
   margin-bottom: 40px;
   border-radius: 10px;
 
-}
+} */
 
 #wolfcontent{
   color: white;
@@ -144,7 +170,7 @@ textarea{
 
 }
 
-#noteContainer{
+#totalnote{
   color: white;
 }
 
@@ -174,10 +200,10 @@ textarea{
 
 
 
-.dropdown {
+/* .dropdown {
     float: left;
     overflow: hidden;
-}
+} */
 
 .dropdown .dropbtn {
     cursor: pointer;
@@ -195,23 +221,23 @@ textarea{
     background-color: red;
 }
 
-.dropdown-content {
+/* .dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
-}
+} */
 
-.dropdown-content a {
+/* .dropdown-content a {
     float: none;
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     text-align: left;
-}
+} */
 
 .dropdown-content a:hover {
     background-color: #ddd;
@@ -226,3 +252,11 @@ textarea{
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+
+li {
+
+  padding: 8px 0px;
+ list-style: none;
+
+  }

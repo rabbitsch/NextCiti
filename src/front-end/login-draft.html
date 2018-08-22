@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="viewport" content="width=device-width">
     <title>NextCiti</title>
-    <link href="index.css" rel="stylesheet" type="text/css" />
+    <link href="index-main.css" rel="stylesheet" type="text/css" />
     <link href="grid.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
   </head>
   <body>
-
+<section id="containerMain" role="region">
+  <section id="containerHidelogin">
     <header>
       <div class="row">
         <div class="col-12">
@@ -43,25 +44,28 @@
           <div class="col-5">
           <div class="contentformlogin">
             <div id="formcontentlogin">
-              <form action="#" id="daform">
-                <label for="js-query"></label>
-                <input type="text" placeholder= "Username" id="js-query">
+              <form action="#" id="daformlog">
+                <label for="username-signin"></label>
+                <input type="text" placeholder= "Username" id="loguser">
                 </input>
-                <label for="js-query"></label>
-                <input type="text" placeholder= "Password" id="js-query">
+                <label for="password-signin"></label>
+                <input type="text" placeholder= "Password" id="logpass">
                 </input>
                 </div>
-                <button class="sub-but" type="submit">Sign In
+                <button class="sub-but-log" type="submit">Sign In
                 </button>
                 <button class="sign-but">Sign up</button>
 
              </form>
+             <div id="showError"></div>
 
             </div>
           </div>
         </section>
+    </section>
+  </section>
   </main>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="index.js"></script>
+    <script src="index-main.js"></script>
   </body>
 </html>
