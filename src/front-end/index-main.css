@@ -22,10 +22,14 @@ background-size: cover;
   padding-bottom: 50px;
 }
 
+#containerMain{
+  padding-bottom:60px;
+}
+
 
 #title{
   font-family: 'PT Mono', monospace;
-	font-size: 9vw;
+	font-size: 8vw;
 	letter-spacing: 4px;
   /* border:5px solid white; */
 	width: 245px;
@@ -69,7 +73,7 @@ color: red;
 
 }
 
-input {
+#loguser,#logpass,#reguser,#regpass,#regfirst,#reglast{
   border: none;
   border-bottom: 3px solid ghostwhite;
   border-radius: 0px;
@@ -79,6 +83,18 @@ input {
   font-size: 20px;
   background: none;
 }
+
+#js-query{
+  border: none;
+  border-bottom: 3px solid ghostwhite;
+  border-radius: 0px;
+  margin-bottom: 30px;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  font-size: 40px;
+  background: none;
+}
+
 
 
 .sub-but-log,.sign-but,.create-but,.sub-but-search{
@@ -177,8 +193,8 @@ textarea{
 .note-list{
   display:inline-block;
   border: 5px solid red;
-  padding: 25px;
-  margin: 25px;
+  /* padding: 25px; */
+  /* margin: 25px; */
   border-radius: 10%;
 }
 
@@ -258,5 +274,8 @@ li {
 
   padding: 8px 0px;
  list-style: none;
-
   }
+
+ul{
+  padding-left: 0;
+}

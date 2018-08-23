@@ -27,6 +27,14 @@
 /* Bigger screens */
 @media only screen and (min-width: 768px) {
 
+  .note-list{
+    display:inline-block;
+    border: 5px solid red;
+    padding: 10px;
+     margin: 10px;
+    border-radius: 10%;
+  }
+
    body, html {
 
   height: 100%;
@@ -72,6 +80,15 @@
 
 @media only screen and (max-width: 600px) {
 
+
+
+  .note-list{
+    display:inline-block;
+    border: 5px solid red;
+    padding: 10px;
+     margin: 10px;
+    border-radius: 10%;
+  }
   .bookcls,.youtube{
     display: block;
     margin: 0 auto;
@@ -89,7 +106,7 @@
   margin-bottom: 30px;
   }
 
-    #js-query, .sub-but{
+    #js-query, .sub-but-search{
     margin: 0 auto;
     font-size:20px;
      margin-bottom: 30px;
