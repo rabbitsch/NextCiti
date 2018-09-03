@@ -11,7 +11,7 @@ const should = chai.should();
 mongoose.Promise = global.Promise;
 
 const { Note } = require('../src/models/note');
-const { City }  = require('../src/models/city');
+const City = require('../src/models/city');
 const { closeServer, runServer, app } = require('../src/server');
 const { TEST_DATABASE_URL, JWT_SECRET } = require('../src/config');
 
@@ -20,77 +20,82 @@ console.log('can you hear me mongo test')
 chai.use(chaihttp);
 
 //emptys my database after each test
-function tearDownDb(){
-  return new Promise((resolve,reject)=>{
-    console.log('test DB deleted')
-    mongoose.connection.dropDatabase()
-    .then(result =>resolve(result))
-    .catch(error =>reject(error));
-  });
+// function tearDownDb(){
+//   return new Promise((resolve,reject)=>{
+//     console.log('test DB deleted')
+//     mongoose.connection.dropDatabase()
+//     .then(result =>resolve(result))
+//     .catch(error =>reject(error));
+//   });
+// }
+
+
+function tearDownDb() {
+  console.log('Deleting database');
+  return mongoose.connection.dropDatabase();
 }
 
 
 //Seed Data base
-function SeedPostData(){
+function seedingData(idFaker, nameFaker, prosFaker, consFaker){
   console.log('seeding DB')
   const seedData = [];
-  for(let i=0; i<10; i++){
-    seedData.push
-  }
-  return City.insertMany(seedData);
-}
-
-//Generates random data
- function generatePostData(){
-
-    const content = {
+  for(let i=0; i<=i.length; i++){
+    seedData.push({
       id: faker.random.uuid(),
       name: faker.address.city(),
       pros: faker.lorem.words(),
       cons: faker.lorem.words()
-    }
-    return content;
-}
-
-//Generates Random User Data
-function generateUserData(){
-  return {
-    username: faker.internet.userName(),
-    password: faker.internet.password()
+    })
+    return City.insertMany(seedData);
   }
 }
+
+//Generates random data
+//  function generatePostData(){
+//
+//     const content = {
+//       id: faker.random.uuid(),
+//       name: faker.address.city(),
+//       pros: faker.lorem.words(),
+//       cons: faker.lorem.words()
+//     }
+//     return content;
+// }
+
+//Generates Random User Data
+// function generateUserData(){
+//   return {
+//     username: faker.internet.userName(),
+//     password: faker.internet.password()
+//   }
+// }
 
 
 //
 describe('preparing endpoints for tests', function(){
+  // const idFaker = faker.random.uuid(),
+  // const nameFaker = faker.address.city(),
+  // const prosFaker = faker.lorem.words(),
+  // const consFaker= faker.lorem.words()
 
-  before(function(done){
-    return runServer(TEST_DATABASE_URL).then(function(){
-      done();
-    }).catch(function(error){
-      console.log(error)
-    })
+  before(function() {
+    return runServer(TEST_DATABASE_URL);
   });
 
-
-  beforeEach(function(){
+  beforeEach(function() {
     return seedingData();
   });
 
-  afterEach(function(){
+  afterEach(function() {
     return tearDownDb();
   });
 
+  after(function() {
+    return closeServer();
+  });
 
-  after(function(done){
-    return closeServer().then(function(){
-      done();
-    }).catch(function(error){
-      console.log(error)
-    });
-  })
 
-});
 
 
 
@@ -101,17 +106,15 @@ describe('testing GET endpoints', function(){
     let res;
     return chai.request(app)
       .get('/api/city-reviews')
-      .set('Content-Type', 'application/json')
+      // .set('Content-Type', 'application/json')
       .then(_res =>{
         res = _res;
-        res.should.have.status(200);
-        // res.should.be.json;
-        // res.body.should.have.lengthOf.at.least(1);
-        return City.count();
+        expect(res).to.have.status(200);
+        // return City.count();
       })
-      .then(post =>{
-        res.body.should.have.lengthOf(post);
-      });
+      // .then(count =>{
+      //   res.body.should.have.lengthOf(count);
+      // })
   });
 
   it('should test posts with correct fields',function(){
@@ -119,74 +122,103 @@ describe('testing GET endpoints', function(){
     return chai.request(app)
       .get('/api/city-reviews')
       .then(function(res){
-        res.should.have.status(200);
-        // res.should.be.JSON;
-        // res.should.be.a('object');
+        expect(res).to.have.status(200);
+        expect(res).to.be.json;
+        // expect(res.body).to.be.a('object');
         // res.body.should.have.lengthOf.at.least(1);
 
         res.body.forEach(data=>{
-          data.should.include.keys('id','name','pros','cons');
+          expect(data).to.include.keys('id','name','pros','cons');
         });
         respPost = res.body[0];
-        console.log(resPost)
-        return City.findById(respPost.id);
+        // return City.findById(respPost.id);
       })
-      .then(post =>{
-        respPost.name.should.equal(post.name);
-        respPost.pros.should.equal(post.pros);
-        respPost.cons.should.equal(post.cons);
-      });
+      // .then(post =>{
+      //   expect(respPost.name).to.equal(post.name);
+      //   expect(respPost.pros).to.equal(post.pros);
+      //   expect(respPost.cons).to.equal(post.cons);
+      // })
   });
+
 });
 
-describe('testing POST endpoints', function(){
+describe('testing POST endpoints', function(done){
 
   it('should add a new post', function(){
-    const newPost = seedingData();
-    var token = jwt.sign({ user }, JWT_SECRET);
+    // const newId = faker.random.uuid();
+    const newName = faker.address.city();
+    const newPros = faker.lorem.words();
+    const newCons= faker.lorem.words();
+    // const newPost = seedingData();
+
+    // var token = jwt.sign({ user }, JWT_SECRET);
 
     return chai.request(app)
       .post('/api/city-reviews')
-      .send(newPost)
+      .set('Content-Type','application/json')
+      .send({
+        // id:newId,
+        name:newName,
+        pros:newPros,
+        cons:newCons
+      })
       .then(res =>{
-        res.should.have.status(200);
-        // res.should.be.JSON;
-        res.should.be.a('object');
-        res.body.should.include.keys('name','pros','cons');
-        res.body.name.should.be.equal(contentAdd.name);
-        res.body.pros.should.be.equal(contentAdd.pros);
-        res.body.cons.should.be.equal(contentAdd.cons);
-
-        // res.body.forEach(function(data){
-        //   data.should.be.a('object');
-
-        //why write another promise.. for post? seems redunant?
-        });
+        expect(res).to.have.status(201);
+        expect(res).to.be.json;
+        expect(res.body).to.be.a('object');
+        expect(res.body).to.include.keys('name','pros','cons');
+        // expect(res.body.name).to.equal(newName);
+        // expect(res.body.pros).to.equal(newPros);
+        // expect(res.body.cons).to.equal(newCons);
+        // return City.findbyId(res.body.id);
+     })
+   .catch((error) => {
+        assert.isNotOk(error,'Promise error');
+        done();
       });
+    });
   });
 
 
   describe('testing my put endpoint', function(){
     it('should test my put end point',function(){
-      const updatedContent = {
-        name: "california",
-        pros:"beautiful",
-        cons: "lots of people"
-      }
+      const newName = faker.address.city();
+      const newPros = faker.lorem.words();
+      const newCons= faker.lorem.words();
+
+
       return chai.request(app)
-        .get('/:id')
-        .then(chkId =>
-        updatedContent.id = chkId.id)
-        .then(function(res){
-          res.should.have.status(204);
-          return City.findById(updatedContent.id);
-          // res.should.be.a('object');
-          // res.should.include.keys('name','pros','cons');
+        .post('/api/city-reviews')
+        .set('Content-Type','application/json')
+        .send({
+          id:this._id,
+          name:newName,
+          pros:newPros,
+          cons:newCons
         })
-        .then(data=>{
-          data.name.equal(updatedContent.name);
-          data.pros.equal(updatedContent.pros);
-          data.cons.equal(updatedContent.cons);
+      const updatedContent = {
+        // id: faker.random.uuid(),
+        name: faker.address.city(),
+        pros: faker.lorem.words(),
+        cons: faker.lorem.words()
+      }
+
+      return City.findOne()
+        .then(note =>{
+          // note.id = updatedContent.id;
+
+          return chai.request(app)
+            .put(`/api/city-reviews/${id}`)
+            .send(updatedContent);
+        })
+        .then(res =>{
+          expect(res).to.have.status(204);
+          return City.findbyId(updatedContent.id)
+        })
+        .then(post=>{
+          expect(post.name).to.equal(updatedContent.name);
+          expect(post.pros).to.equal(updatedContent.pros);
+          expect(post.cons).to.equal(updatedContent.cons);
         });
 
     });
@@ -194,19 +226,35 @@ describe('testing POST endpoints', function(){
 
   describe('test the delete endpoint', function(){
     it('should test my delete endpoint', function(){
+      const newName = faker.address.city();
+      const newPros = faker.lorem.words();
+      const newCons= faker.lorem.words();
+
+
+      return chai.request(app)
+        .post('/api/city-reviews')
+        .set('Content-Type','application/json')
+        .send({
+          id:this._id,
+          name:newName,
+          pros:newPros,
+          cons:newCons
+        })
         let post;
 
         return City.findOne()
           .then(_post=>{
             post = _post;
-            return chai.request(app).delete(`/${post.id}`);
+            return chai.request(app).delete(`/${id}`);
           })
           .then(res => {
-            res.should.have.status(204);
+            expect(res).to.have.status(204);
             return City.findById(post.id);
           })
           .then(tst=>{
-            should.not.exist(tst);
+            expect(tst).to.be.null;
           });
     });
   });
+
+});
