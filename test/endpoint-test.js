@@ -51,33 +51,12 @@ function seedingData(idFaker, nameFaker, prosFaker, consFaker){
   }
 }
 
-//Generates random data
-//  function generatePostData(){
-//
-//     const content = {
-//       id: faker.random.uuid(),
-//       name: faker.address.city(),
-//       pros: faker.lorem.words(),
-//       cons: faker.lorem.words()
-//     }
-//     return content;
-// }
 
-//Generates Random User Data
-// function generateUserData(){
-//   return {
-//     username: faker.internet.userName(),
-//     password: faker.internet.password()
-//   }
-// }
 
 
 //
 describe('preparing endpoints for tests', function(){
-  // const idFaker = faker.random.uuid(),
-  // const nameFaker = faker.address.city(),
-  // const prosFaker = faker.lorem.words(),
-  // const consFaker= faker.lorem.words()
+
 
   before(function() {
     return runServer(TEST_DATABASE_URL);

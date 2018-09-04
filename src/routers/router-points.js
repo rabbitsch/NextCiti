@@ -12,8 +12,7 @@ console.log('can you hear me CRUD router!')
 // my GET mongo endpoint
 router.get('/city-reviews',(req,res) =>{
   console.log('GET /city-reviews');
-  City
-  .find().then(posts =>{
+  City.find().then(posts =>{
       res.json(posts.map(post=> post.serialize()));
     })
     .catch(err =>{
@@ -26,8 +25,7 @@ router.get('/city-reviews',(req,res) =>{
 router.get('/city-reviews/:id',(req,res)=>{
 console.log(req.params)
 
-  City
-    .findById(req.params.id)
+  City.findById(req.params.id)
     .then(post => res.json(post.serialize()))
       .catch(error =>{
       console.log(error);
@@ -55,9 +53,10 @@ router.post('/city-reviews',(req,res)=>{
     }
     City
       .create({
-        name:req.body.name,
-        pros:req.body.pros,
-        cons:req.body.cons
+        name: req.body.name,
+        // user: req.body.user,
+        pros: req.body.pros,
+        cons: req.body.cons,
       })
       .then(cityPost => res.status(201).json(cityPost.serialize()))
    .catch(err => {
