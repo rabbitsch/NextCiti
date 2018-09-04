@@ -11,23 +11,41 @@ $(document).on('submit','#daformsearch',function(event){
   // console.log(findings)
 
     geocodingData(findings);
-
+    renderNotePad();
+    fourSqAPI(findings);
     // getMapData(findings);
     // renderTitle(findings);
 
-    // secondWolf(findings);
+     // secondWolf(findings);
 
    });
 
 });
 
+//Edge case for Search Wolf
+function showNoContentwolfSection(){
+  return $("#wolfcontent").html(`<section class="row" role="region">
+          <div class="col-12">
+            <p class="no-content-message">Unable to find results. Try searching for another city.
+          </div>
+        </section>`)
+}
 
-// function yelpApi(){
-//   let url = 'https://api.yelp.com/v3/businesses/search'
-// }
+
+//Edge case for Search Foursquare
+function showNoContentfourSection(){
+  return $("#restHere").html(`<section class="row" role="region">
+          <div class="col-12">
+            <p class="no-content-message">Unable to find results. Try searching for another city.
+          </div>
+        </section>`)
+}
 
 
 
+
+
+//Wolf Ram API
 function secondWolf(searching){
 
 
@@ -35,6 +53,9 @@ function secondWolf(searching){
 
 
   $.getJSON(url,function(data){
+   //  if (data[1].length === 0) {
+   //   return showNoContentwolfSection()
+   // }
     // console.log(data.queryresult.pods[1])
     renderWolfData(data);
   })
@@ -42,7 +63,12 @@ function secondWolf(searching){
 
 
 
+//WolfRam Render
 function renderWolfData(data){
+
+  $("#wolfcontent").html(`<h2 class="conHead">City Info</h2>`);
+  $("#wolfcontent").append(`<h5 class="conHead">(Allow Brief Moment to Load)</h5>`);
+
 
 
  let html2 =
@@ -69,7 +95,7 @@ function renderWolfData(data){
 
 
 
-  $("#wolfcontent").html(html2)
+  $("#wolfcontent").append(html2)
 
 
 }
@@ -77,7 +103,6 @@ function renderWolfData(data){
 
 //Lat and long Title
 function geocodingData(search){
-
 
 
   const params = {
@@ -100,6 +125,73 @@ function geocodingData(search){
 }
 
 
+//Restaurant API tap
+
+function fourSqAPI(search){
+
+
+  console.log('can you hear me foursquare')
+
+
+  params ={
+    url:'/api/four',
+    method:"GET",
+    near:search,
+    v: "20180823",
+    limit:10,
+    error: (error) =>{
+      console.log(error)
+    }
+  }
+
+  $.getJSON(url,params,function(data){
+   //  if (data[1].length === 0) {
+   //   return showNoContentfourSection()
+   // }
+
+
+    const info = data.response.groups[0].items
+
+
+    renderFour(info);
+  })
+}
+
+
+//Rendering popular spot
+
+function renderFour(data){
+
+  // $("#restHere").html(" ");
+  $("#restHere").html(`<h2 class="conHead">Local Popular Destinations</h2>`);
+
+// console.log(data)
+let html = '<ul class="rest-list">'
+  data.forEach(function(result){
+console.log(result)
+
+    html +=
+
+    `<li class="restcontent">
+      <h2 class="restTitle">${result.venue.name}</h2>
+      <p class="restType">Type of place: ${result.venue.categories[0].name}</p>
+      <p class="restLoc">${result.venue.location.address}</p>
+      <p class="restCity">${result.venue.location.city},${result.venue.location.state}</p>
+    </li>`
+  })
+  html += '</ul>';
+
+  $("#restHere").append(html)
+
+
+}
+
+
+
+
+
+
+
 function renderNotetitle(data){
 
   let htmlPost = `<h3 id="cityname">${data}</h3>`
@@ -111,7 +203,7 @@ function renderNotetitle(data){
 //Render Latitude and Long
 function renderLatLon(data){
   $("#latlon").html(" ")
-let html = `<h2>${data.lat},${data.lng}</h2>`
+let html = `<h2 class="latlon">${data.lat},${data.lng}</h2>`
 
 // console.log(data)
 
@@ -124,7 +216,6 @@ let html = `<h2>${data.lat},${data.lng}</h2>`
 
 //POST Notes function
 
-$(function(){
 $(document).on('click','#postNote',function(event){
   event.preventDefault();
   console.log('can you hear me post button')
@@ -133,116 +224,132 @@ $(document).on('click','#postNote',function(event){
   const cons= $('#cons').val();
   console.log(name)
 
-
-
-
-$.ajax({
-  url: `/api/city-reviews`,
-  type:"POST",
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  data: JSON.stringify({
-    name:name,
-    pros:pros,
-    cons:cons
-  }),
-  success: function(response){
-    console.log(name)
-    // console.log(JSON.stringify(response))
-    if(response){
-      $('#cityname').val(" ");
-      $('#pros').val(" ");
-      $('#cons').val(" ");
-
+  $.ajax('/api/users/whoami', {
+    headers: {
+      'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
     }
-  },
-  error:(error)=>{
-    console.log(JSON.stringify(error) + 'the post error man')
-    }
+  })
+    .then((data, txtStatus, jqXHR) => {
+      console.log(data, txtStatus)
+
+      return $.ajax({
+        url: '/api/city-reviews',
+        type: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+        },
+        data: JSON.stringify({
+          name: name,
+          pros: pros,
+          cons: cons,
+          user: data.id,
+        })
       })
-    });
-  });
+    })
+    .then((res) => {
+      console.log(name)
+
+      if(res) {
+        $('#cityname').val('');
+        $('#pros').val('');
+        $('#cons').val('');
+      }
+    })
+    .catch((error) => {
+      console.error(JSON.stringify(error) + 'the post error man')
+    })
+})
 
 
 
     // Get All and Render notes screen
-
+let noteData = [];
     $(function(){
+
     $(document).on('click','#formgetall',function(event){
       event.preventDefault();
       console.log("Get all link has been clicked")
 
       $.ajax({
         url:`/api/city-reviews`,
-        type:"GET",
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        },
+        // type:"GET",
         success:function(data){
+          noteData = data
           console.log(data)
-              renderGetallData(data);
+              renderGetallData();
         },
         dataType:"json",
         contentType:"application/json"
       });
 
-      // $('#containsAll').html(renderGetallData());
+
     })
     })
 
 
-    //Render GET html
-function renderGetallData(data){
+    //Render GET html.. The "your notes" section
+function renderGetallData(){
       // console.log(data)
 
       let html = '<ul class="mynoteitems">'
-      data.forEach(value =>{
+      noteData.forEach(value =>{
         console.log(value)
-        html += `<li class="note-list">
-        <section id="totalnote">
+        html += `
+    <li class="note-list">
+      <section id="totalnote">
         <h1 class='notetitle'>${value.name}</h1>
-        <h3>Pros</h3>
-        <textarea class='notepro'>${value.pros}</textarea>
-        <h3>Cons</h3>
-        <textarea class='notecon'>${value.cons}</textarea>
-        <p class='noteid'>${value.id}</p>
+          <h3>Pros</h3>
+            <textarea class='notepro'>${value.pros}</textarea>
+          <h3>Cons</h3>
+            <textarea class='notecon'>${value.cons}</textarea>
+            <p class='noteid'>${value.id}</p>
         <button class='update-but'>Update</button>
         <button class='delete-but'>Delete</button>
         </section>
-        </li>`
+        </li>
+        `
       })
     html += '</ul>';
     $('#containsAll').hide();
+    $('#topTile-2').hide();
      $('#getnotes').html(html);
      $('#getnotes').show();
 
     }
 
 //Update part 1, to get ID
+$(function(){
     $(document).on('click','.update-but',(event)=>{
       event.preventDefault();
       console.log("can you hear me update docu thingy")
       const noteId = $(event.currentTarget).siblings('.noteid').text()
       console.log(noteId)
-      const name= $(event.currentTarget).siblings('.notetitle').text()
-      const pros= $(event.currentTarget).siblings('.notepro').text()
-      const cons= $(event.currentTarget).siblings('.notecon').text()
-      const id= $(event.currentTarget).siblings('.noteid').text()
-
+      const newName= $(event.currentTarget).siblings('.notetitle').text()
+      const newPros= $(event.currentTarget).siblings('.notepro').val()
+      const newCons= $(event.currentTarget).siblings('.notecon').val()
+      const newId= $(event.currentTarget).siblings('.noteid').text()
 
 
     $.ajax({
       url: `/api/city-reviews/${noteId}`, //Have joel review
       type:"PUT",
       data:({
-        name:name,
-        pros:pros,
-        cons:cons,
-        id:id
+        name:newName,
+        pros:newPros,
+        cons:newCons,
+        id:newId
       }),
       success: function(response){
         console.log("<<<<<<<<< hi")
 
+
         if(response){
           console.log("can you hear me put success")
+
 
           //Become text area?
           name.val(" ");
@@ -258,8 +365,12 @@ function renderGetallData(data){
           })
         });
 
+      });
 
 
+// $(function(){
+//
+// })
 
 
     // Render Home Tab all info
@@ -268,6 +379,7 @@ function renderGetallData(data){
         console.log('can you hear me home button!!')
         event.preventDefault();
         $('#getnotes').hide();
+        $('#topTile-2').show();
         $('#containsAll').show();
         })
       })
@@ -275,28 +387,46 @@ function renderGetallData(data){
 
 
 //Delete button
+$(function(){
 $(document).on('click','.delete-but',(event)=>{
   event.preventDefault();
   console.log("can you hear me delete button")
   const noteId = $(event.currentTarget).siblings('.noteid').text()
   console.log(noteId)
+
+
   $.ajax({
     url: `/api/city-reviews/${noteId}`, //have joel review this
     type:"DELETE",
     success: function(response){
-      console.log(JSON.stringify(response))
+      console.log('hello delete button success')
+      noteData = noteData.filter(note=>{
+        if(noteId!=note.id){
+          return true
+        }
+        else{
+          return false
+        }
+      })
+        renderGetallData();
       if(response){
+
         $('#cityname').val(" ");
         $('#pros').val(" ");
         $('#cons').val(" ");
 
       }
+
     },
     error:(error)=>{
       console.log(JSON.stringify(error) + 'the post error man')
       }
         })
+
       });
+
+
+    });
 
 
 
@@ -343,7 +473,7 @@ $(document).on('click','.delete-but',(event)=>{
 
       //register button
       $(function(){
-      $("#daformreg").submit((event)=>{
+      $(document).on('click','.create-but',function(event){
         event.preventDefault();
         console.log('can you hear me register button')
         const username= $('#reguser').val();
@@ -378,6 +508,7 @@ $(document).on('click','.delete-but',(event)=>{
           console.log(JSON.stringify(err) + 'this be de eerrrrooorrrrr')
               }
             });
+            location.reload();
           });
         })
 
@@ -428,6 +559,26 @@ $(document).on('click','.delete-but',(event)=>{
   }
 
 
+//Render Note pad
+function renderNotePad(){
+  let htmlPad =     `
+    <div class = "row">
+      <div class ="col-12">
+        <form id="formpost">
+          <h2 id="noteHeader">Enter Your Notes Here</h2>
+            <h3 id ="citynameHere"></h3>
+              <textarea id="pros" rows = "4" style = "width: 50%" name="comment" form="usrform">Enter Pros text here...</textarea>
+              <textarea id="cons" rows = "4" style = "width: 50%" name="comment" form="usrform">Enter Cons text here...</textarea>
+      </div>
+          <button id="postNote">Post Note</button>
+  </div>
+      </form>`
+      $("#myPostFormRen").html(htmlPad)
+}
+
+
+
+
 // handle login transition
 function loginTransition(){
   if (sessionStorage.getItem("token")){
@@ -444,7 +595,7 @@ function loginTransition(){
   function renderMainPage(){
     let htmlAll = `<header role ="banner">
        <div class="row">
-         <div class="col-12">
+         <div class="col-10 offset-1">
            <nav class="navbar">
              <form id="homeward">
                <a href="#home" onclick ="renderHome()" id="homebut">Home</a>
@@ -452,39 +603,37 @@ function loginTransition(){
              <form id="formgetall">
                  <a id="but-sub-getall" onclick="renderGetallData()"type="submit">Your Notes
                  </a>
-                 </form>
-               <a class="job-but" href = "https://www.indeed.com">Local Jobs</a>
-               <a class ="job-but" href = "https://www.craigslist.org">Apartments</a>
+              </form>
+               <a class="job-but" href = "https://www.indeed.com" target="_blank">Local Jobs</a>
+               <a class ="job-but" href = "https://www.craigslist.org" target="_blank">Apartments</a>
+               <a class="job-but" href ="https://rabbitsch.github.io/Hobbist2/" target="_blank"> Learn a new Hobby!</a>
 
                <a href ="#logout" onclick="logoutfunct()" id="logoutlink">Log out</a>
-        </nav>
+            </nav>
         </div>
       </div>
-        <div class="col-12">
+        <div class="col-10 offset-1">
           <div id="topTile">
             <h1 id="title"></h1>
           </div><!-- /#topTile -->
         </div>
-      </div>
+
 
       <div class="row">
-        <div class="col-12">
-          <div id="topTile">
+        <div class="col-10 offset-1">
+          <div id="topTile-2">
             <h1 id="title-2"></h1>
-           <h2 id = "latlon"></h2>
+              <h2 id ="latlon"></h2>
           </div>
-
-          </div>
-          </div><!-- /#topTile -->
         </div>
       </div> <!--/# ending the row -->
 
     </header>
   <main>
     <div class="row">
-          <div class="col-10 offset-1">
-                <section id="getnotes"></section>
-          </div>
+        <div class="col-10 offset-1">
+          <section id="getnotes"></section>
+        </div>
     </div>
     <section id="containsAll" role="region">
      <section class="container-form" role="region">
@@ -492,7 +641,7 @@ function loginTransition(){
             <div class="col-7 offset-3">
               <form action="#" id="daformsearch">
                 <label for="js-query"></label>
-                <input type="text" placeholder= "NextCiti to Explore" id="js-query">
+                <input type="text" placeholder= "Type in a Citi to Explore" id="js-query">
                 </input>
               <button class="sub-but-search" type="submit">NextCiti
               </button>
@@ -501,21 +650,17 @@ function loginTransition(){
         </div><!-- /.row -->
       </section><!-- /.container-form -->
       <section class = "container-note" role="region">
-        <div class = "row">
-          <div class ="col-12">
-            <form id="formpost">
-              <h3 id ="citynameHere"></h3>
-                <textarea id="pros" rows = "4" style = "width: 50%" name="comment" form="usrform">Enter Pros text here...</textarea>
-          <!-- </div> -->
-          <!-- <div class = "col-5 offset-1"> -->
-                <textarea id="cons" rows = "4" style = "width: 50%" name="comment" form="usrform">Enter Cons text here...</textarea>
-
-              </div>
-                <button id="postNote">Post Note</button>
-        </div>
-            </form>
+          <div id="myPostFormRen"></div>
       </section>
     <div class="city-contents"  aria-live="assertive" role="region">
+    <div class="row">
+      <div class="col-10 offset-1">
+        <div class="content-box">
+          <section id="restHere" role="region"></section>
+        </div><!-- /.content-box -->
+
+      </div><!-- /.col-10 -->
+    </div>
         <div class="row">
           <div class="col-10 offset-1">
             <div class="content-box">

@@ -86,13 +86,26 @@ color: red;
 
 #js-query{
   border: none;
-  border-bottom: 3px solid ghostwhite;
+  border: 3px solid ghostwhite;
   border-radius: 0px;
   margin-bottom: 30px;
   color: white;
   -webkit-font-smoothing: antialiased;
   font-size: 40px;
   background: none;
+  background: rgba(255, 255, 255, 0.5);
+}
+::placeholder {
+    color: red;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: red;
+}
+
+::-ms-input-placeholder {
+    color: red;
 }
 
 
@@ -128,6 +141,11 @@ color: red;
 
 #citynameHere{
   color:lightgray;
+}
+
+#noteHeader{
+  color: lightblue;
+  text-decoration: underline;
 }
 
 
@@ -173,6 +191,7 @@ textarea{
   border: 3px solid silver;
   border-radius: 5px;
   height:auto;
+  font-size: 15pt;
 }
 
 #title-2{
@@ -180,8 +199,9 @@ textarea{
 
 }
 
-#latlon{
+.latlon{
   color: azure;
+  font-size: 20pt;
 /* text-shadow: 5px 5px 5px whitesmoke;  */
 
 }
@@ -193,8 +213,8 @@ textarea{
 .note-list{
   display:inline-block;
   border: 5px solid red;
-  /* padding: 25px; */
-  /* margin: 25px; */
+  padding: 25px;
+   margin: 25px;
   border-radius: 10%;
 }
 
@@ -206,6 +226,7 @@ textarea{
 }
 
 .navbar a {
+    /* padding-top: 20px; */
     float: left;
     font-size: 16px;
     color: white;
@@ -216,10 +237,6 @@ textarea{
 
 
 
-/* .dropdown {
-    float: left;
-    overflow: hidden;
-} */
 
 .dropdown .dropbtn {
     cursor: pointer;
@@ -237,23 +254,7 @@ textarea{
     background-color: red;
 }
 
-/* .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-} */
 
-/* .dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-} */
 
 .dropdown-content a:hover {
     background-color: #ddd;
@@ -266,16 +267,40 @@ textarea{
 
 .dropdown-content a:hover {background-color: #ddd}
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+
 .show {display:block;}
 
+
+.rest-list{
+  border: solid 5px black;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 3%;
+}
+
+.restTitle{
+  color: black;
+}
+
+.restcontent{
+  color:red;
+  padding: 25px 25px 25px 25px;
+
+}
+
+.conHead{
+  font-size: 35px;
+  color: lightblue;
+}
 
 li {
 
   padding: 8px 0px;
  list-style: none;
+ display:inline-block;
   }
 
 ul{
+
   padding-left: 0;
 }

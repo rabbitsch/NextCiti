@@ -19,10 +19,11 @@ const routerPoint = require('./routers/router-points');
 const wolframRouter = require('./routers/router-wolf');
 const userRouter = require('./routers/users-router');
 const authRouter = require('./routers/router-auth');
+const notesRouter = require('./routers/notes-router');
+const fourRouter = require('./routers/router-four');
 const pkg = require('../package.json');
 const { DATABASE_URL, PORT } = require('./config');
 const app = express();
-const jsonParser = bodyParser.json();
 
 
 
@@ -45,7 +46,8 @@ app.use('/api',authRouter);
 app.use('/api',routerPoint);
 app.use('/api/users',userRouter);
 app.use('/wolfram', wolframRouter);
-
+app.use('/api/notes', notesRouter);
+app.use('/four', fourRouter);
 
 
 // app.get('/', (req, res) => res.end(`NextCiti API ${pkg.version}`))
@@ -90,7 +92,7 @@ function runServer(){
     });
   });
 })
-};
+}
 
 
 //Close Server
@@ -100,10 +102,9 @@ function closeServer(){
   return new Promise((resolve,reject)=>{
     console.log('server is closing')
     server.close(err =>{
-      if(error){
-        reject(error);
-        return;
-      }
+      if(error => {
+        return reject(error);
+      })
       resolve();
     })
     });

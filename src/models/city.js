@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 
-
 console.log('can you hear me city model!')
-mongoose.promise = global.promise;
 
 const schema = new mongoose.Schema({
   name: { type: String },
+  user: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'User'
+  },
   pros: { type: [String] },
   cons: { type: [String] }
 });
