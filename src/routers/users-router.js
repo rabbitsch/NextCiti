@@ -17,8 +17,20 @@ const jsonParser = bodyParser.json();
 const localAuth = passport.authenticate('local', { session: false });
 
 
+router.get('/whoami', jwtAuth, (req, res) => {
+  return User.findOne({ username: req.user.username })
+    .then(doc => {
+      res.json(doc.serialize())
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).end('Something went wrong')
+    })
+})
+
 
 router.post('/',jsonParser,(req,res) =>{
+  console.log('new user');
   const requiredFields = ['username','password'];
   const missingFields = requiredFields.find(field => !(field in req.body));
 
@@ -98,7 +110,7 @@ router.post('/',jsonParser,(req,res) =>{
         return Promise.reject({
           code: 422,
           reason:'ValidationError',
-          message:'username already taken',
+          message:'Username is already taken',
           location:'username'
         });
       }

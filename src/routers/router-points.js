@@ -9,10 +9,18 @@ const City = require('../models/city');
 
 console.log('can you hear me CRUD router!')
 
+const jwtAuth = require('passport').authenticate('jwt', {
+  session: false,
+  failureRedirect: '/api/login'
+});
+
 // my GET mongo endpoint
-router.get('/city-reviews',(req,res) =>{
+router.get('/city-reviews', jwtAuth, (req,res) =>{
   console.log('GET /city-reviews');
-  City.find().then(posts =>{
+  console.log(req.user);
+
+  City.find({ user: req.user.id }).then(posts =>{
+  // City.find().then(posts =>{
       res.json(posts.map(post=> post.serialize()));
     })
     .catch(err =>{
@@ -22,8 +30,8 @@ router.get('/city-reviews',(req,res) =>{
   });
 
 //my Get mongo endpoint by ID
-router.get('/city-reviews/:id',(req,res)=>{
-console.log(req.params)
+router.get('/city-reviews/:id',(req,res) => {
+  console.log(req.params)
 
   City.findById(req.params.id)
     .then(post => res.json(post.serialize()))
@@ -33,37 +41,33 @@ console.log(req.params)
     });
 });
 
-// router.post('/test',function(req,res){
-//   res.send('can you hear me post and stuff')
-// });
-
 //My Post Endpoint for Mongo
-router.post('/city-reviews',(req,res)=>{
+router.post('/city-reviews', (req,res) => {
+  // const requiredkeys = ['name','pros','cons','user'];
+  // // console.log({ req });
+  // for(let i = 0;i<requiredkeys.length;i++){
+  //   const selector = requiredkeys[i];
+  //   // console.log(req.body)
+  //   if(!(selector in req.body)){
+  //     const message = `${selector} is not in the body`
+  //     // console.log(message);
+  //     return res.status(400).send(message);
+  //   }
+  // }
 
-  const requiredkeys = ['name','pros','cons'];
-  // console.log({ req });
-  for(let i = 0;i<requiredkeys.length;i++){
-    const selector = requiredkeys[i];
-    // console.log(req.body)
-    if(!(selector in req.body)){
-      const message = `${selector} is not in the body`
-      // console.log(message);
-      return res.status(400).send(message);
-      }
-    }
-    City
-      .create({
-        name: req.body.name,
-        // user: req.body.user,
-        pros: req.body.pros,
-        cons: req.body.cons,
-      })
-      .then(cityPost => res.status(201).json(cityPost.serialize()))
-   .catch(err => {
-     console.error(err);
-     res.status(500).json({ error: 'Something went wrong' });
-   });
- });
+  City
+    .create({
+      name: req.body.name,
+      user: req.body.user,
+      pros: req.body.pros,
+      cons: req.body.cons,
+    })
+    .then(cityPost => res.status(201).json(cityPost.serialize()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'Something went wrong' });
+    });
+});
 
 
 
@@ -98,7 +102,7 @@ router.put('/city-reviews/:id', (req, res) => {
   }
 
   const updated = {};
-  const updateableFields = ['name', 'pros', 'cons'];
+  const updateableFields = ['name', 'pros', 'cons','user'];
   updateableFields.forEach(field => {
     if (field in req.body) {
       updated[field] = req.body[field];

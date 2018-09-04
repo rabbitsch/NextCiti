@@ -3,9 +3,7 @@ const bcrypt = require('bcryptjs');
 
 console.log('can you hear me user model!')
 
-mongoose.promise=global.promise
-
-const schemaUser = new mongoose.Schema({
+const schema = new mongoose.Schema({
   username:{
     type:String,
     unique: true,
@@ -19,22 +17,23 @@ const schemaUser = new mongoose.Schema({
   lastname:{type:String}
 });
 
-schemaUser.methods.serialize = function(){
+schema.methods.serialize = function(){
   return{
+    id: this._id,
     username:this.username,
     firstname: this.firstname,
     lastname:this.lastname
   };
 };
 
-schemaUser.methods.validatePassword = function(password){
+schema.methods.validatePassword = function(password){
   return bcrypt.compare(password,this.password);
 };
 
-schemaUser.statics.hashPassword = function(password){
+schema.statics.hashPassword = function(password){
   return bcrypt.hash(password,10);
 };
 
-const User = mongoose.model('user',schemaUser);
+const User = mongoose.model('User',schema);
 
 module.exports = {User};
