@@ -39,3 +39,4 @@ const jwtAuth = passport.authenticate('jwt',{session:false});
 
 
 module.exports = router;
+// module.exports = createAuthToken;

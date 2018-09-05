@@ -100,7 +100,7 @@ describe('preparing endpoints for tests', function(){
 
 
 
-describe.only('testing GET endpoints', function(){
+describe('testing GET endpoints', function(){
 
 
   it('should return all posts',function(){
@@ -162,26 +162,42 @@ describe.only('testing GET endpoints', function(){
 
 });
 
-describe.only('testing POST endpoints', function(done){
+describe('testing POST endpoints', function(done){
 
   it('should add a new post', function(){
-     const userId = faker.random.uuid();
+    return City.findOne()
+      .then(host =>{
+
+        const user1 = preAuthHost(host)
+        console.log(user1)
+        let authToken = createAuthToken(user1);
+        // console.log('>>>>',{newUserid})
+        console.log(authToken)
+    
+
+})
+return chai.request(app)
+  .get('/api/users/whoami')
+  .set('Authorization', `Bearer ${authToken}`)
+  .then(data =>{
+
     const newName = faker.address.city();
     const newPros = faker.lorem.words();
     const newCons= faker.lorem.words();
-    // const newPost = seedingData();
-
-    // var token = jwt.sign({ user }, JWT_SECRET);
+    console.log(data.id,'>>>>>>>>>>>>')
 
     return chai.request(app)
       .post('/api/city-reviews')
       .set('Content-Type','application/json')
+      .set('Authorization', `Bearer ${authToken}`)
       .send({
-        user:userId,
+        user:this.id,
         name:newName,
         pros:newPros,
         cons:newCons
       })
+    })
+
       .then(res =>{
         expect(res).to.have.status(201);
         expect(res).to.be.json;

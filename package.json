@@ -30,7 +30,7 @@
   "scripts": {
     "start": "node src/server.js",
     "watch": "nodemon src/server.js",
-    "test": "mocha test/note-test.js"
+    "test": "mocha"
   },
   "author": "Kevin Schmitz",
   "license": "ISC"

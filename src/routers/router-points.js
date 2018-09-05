@@ -16,11 +16,8 @@ const jwtAuth = require('passport').authenticate('jwt', {
 
 // my GET mongo endpoint
 router.get('/city-reviews', jwtAuth, (req,res) =>{
-  console.log('GET /city-reviews');
-  console.log(req.user);
-
-  City.find({ user: req.user.id }).then(posts =>{
-  // City.find().then(posts =>{
+   City.find({ user: req.user.id }).then(posts =>{
+   // City.find().then(posts =>{
       res.json(posts.map(post=> post.serialize()));
     })
     .catch(err =>{
@@ -43,17 +40,15 @@ router.get('/city-reviews/:id',(req,res) => {
 
 //My Post Endpoint for Mongo
 router.post('/city-reviews', (req,res) => {
-  // const requiredkeys = ['name','pros','cons','user'];
-  // // console.log({ req });
-  // for(let i = 0;i<requiredkeys.length;i++){
-  //   const selector = requiredkeys[i];
-  //   // console.log(req.body)
-  //   if(!(selector in req.body)){
-  //     const message = `${selector} is not in the body`
-  //     // console.log(message);
-  //     return res.status(400).send(message);
-  //   }
-  // }
+  const requiredkeys = ['name','pros','cons','user'];
+  // console.log({ req });
+  for(let i = 0;i<requiredkeys.length;i++){
+    const selector = requiredkeys[i];
+    if(!(selector in req.body)){
+      const message = `${selector} is not in the body`
+      return res.status(400).send(message);
+    }
+  }
 
   City
     .create({
@@ -73,9 +68,6 @@ router.post('/city-reviews', (req,res) => {
 
 //My delete endpoint
  router.delete('/city-reviews/:id', (req, res) => {
-   console.log(req.params.id)
-   console.log(req.body)
-   console.log(">>>>>>>>>>>>>>>>")
   City
     .findByIdAndRemove(req.params.id)
     .then(() => {
@@ -91,10 +83,6 @@ router.post('/city-reviews', (req,res) => {
 
 // my put endpoint
 router.put('/city-reviews/:id', (req, res) => {
-  // console.log(req.params.id)
-  // console.log(">>>>>>>>>>>>>")
-  // console.log(req.body)
-
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     res.status(400).json({
       error: 'Request path id and request body id values must match'

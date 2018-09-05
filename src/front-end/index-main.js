@@ -11,7 +11,7 @@ $(document).on('submit','#daformsearch',function(event){
     renderNotePad();
     fourSqAPI(findings);
 
-     secondWolf(findings);
+    // secondWolf(findings);
 
    });
 
