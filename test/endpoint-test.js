@@ -10,8 +10,9 @@ const expect = chai.expect;
 const should = chai.should();
 mongoose.Promise = global.Promise;
 
-const { Note } = require('../src/models/note');
 const City = require('../src/models/city');
+const config = require('../src/config');
+// const createAuthToken = require("../src/routers/router-auth");
 const { closeServer, runServer, app } = require('../src/server');
 const { TEST_DATABASE_URL, JWT_SECRET } = require('../src/config');
 
@@ -19,15 +20,6 @@ const { TEST_DATABASE_URL, JWT_SECRET } = require('../src/config');
 console.log('can you hear me mongo test')
 chai.use(chaihttp);
 
-//emptys my database after each test
-// function tearDownDb(){
-//   return new Promise((resolve,reject)=>{
-//     console.log('test DB deleted')
-//     mongoose.connection.dropDatabase()
-//     .then(result =>resolve(result))
-//     .catch(error =>reject(error));
-//   });
-// }
 
 
 function tearDownDb() {
@@ -51,6 +43,36 @@ function seedingData(idFaker, nameFaker, prosFaker, consFaker){
   }
 }
 
+function generateHostData() {
+  return {
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    username: faker.name.firstName(),
+    password: "123Password",
+  };
+}
+
+
+const preAuthHost = function() {
+  const genPassword = "Password";
+return {
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
+  username: faker.name.firstName(),
+  password: "123Password",
+};
+};
+
+//my create auth
+
+const createAuthToken = function(user){
+  console.log('hi! create Token')
+  return jwt.sign({user}, config.JWT_SECRET,{
+    subject: user.username,
+    expiresIn: config.JWT_EXPIRY,
+    algorithm: 'HS256'
+  });
+};
 
 
 
@@ -78,14 +100,21 @@ describe('preparing endpoints for tests', function(){
 
 
 
-describe('testing GET endpoints', function(){
+describe.only('testing GET endpoints', function(){
 
 
   it('should return all posts',function(){
     let res;
-    return chai.request(app)
-      .get('/api/city-reviews')
-      // .set('Content-Type', 'application/json')
+    return City.find()
+      .then(host =>{
+        const user1 = preAuthHost(host)
+        let authToken = createAuthToken(user1);
+      return chai.request(app)
+        .get('/api/city-reviews')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send(this._id)
+    })
+
       .then(_res =>{
         res = _res;
         expect(res).to.have.status(200);
@@ -98,11 +127,23 @@ describe('testing GET endpoints', function(){
 
   it('should test posts with correct fields',function(){
     let respPost;
+    const newUserid = this._id
+    return City.findOne()
+      .then(host =>{
+        const user1 = preAuthHost(host)
+        let authToken = createAuthToken(user1);
+        // console.log('>>>>',{newUserid})
+
     return chai.request(app)
       .get('/api/city-reviews')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({newUserid})
+
+    })
       .then(function(res){
         expect(res).to.have.status(200);
         expect(res).to.be.json;
+        // console.log(this.user._id, '>>>>>')
         // expect(res.body).to.be.a('object');
         // res.body.should.have.lengthOf.at.least(1);
 
@@ -121,10 +162,10 @@ describe('testing GET endpoints', function(){
 
 });
 
-describe('testing POST endpoints', function(done){
+describe.only('testing POST endpoints', function(done){
 
   it('should add a new post', function(){
-    // const newId = faker.random.uuid();
+     const userId = faker.random.uuid();
     const newName = faker.address.city();
     const newPros = faker.lorem.words();
     const newCons= faker.lorem.words();
@@ -136,7 +177,7 @@ describe('testing POST endpoints', function(done){
       .post('/api/city-reviews')
       .set('Content-Type','application/json')
       .send({
-        // id:newId,
+        user:userId,
         name:newName,
         pros:newPros,
         cons:newCons
@@ -151,10 +192,10 @@ describe('testing POST endpoints', function(done){
         // expect(res.body.cons).to.equal(newCons);
         // return City.findbyId(res.body.id);
      })
-   .catch((error) => {
-        assert.isNotOk(error,'Promise error');
-        done();
-      });
+   // .catch((error) => {
+   //      assert.isNotOk(error,'Promise error');
+   //      done();
+   //    });
     });
   });
 
