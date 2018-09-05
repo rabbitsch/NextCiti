@@ -28,8 +28,7 @@
     "chai-http": "^4.0.0"
   },
   "scripts": {
-    "start": "node src/server.js",
-    "watch": "nodemon src/server.js",
+    "start": "nodemon src/server.js",
     "test": "mocha"
   },
   "author": "Kevin Schmitz",
