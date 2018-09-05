@@ -9,7 +9,7 @@ const FOUR_BASE_URL = `https://api.foursquare.com/v2/venues/explore`
 const FOURCLIENT_ID = process.env.FOURCLIENT_ID
 const FOURCLIENT_SECRET = process.env.FOURCLIENT_SECRET
 
-console.log({ FOURCLIENT_ID:process.env.FOURCLIENT_ID });
+// console.log({ FOURCLIENT_ID:process.env.FOURCLIENT_ID });
 
 router.get('/', (req, res) => {
   axios.get(`${FOUR_BASE_URL}?near=${req.query.near}`, {
