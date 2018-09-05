@@ -5,18 +5,13 @@ $(document).on('submit','#daformsearch',function(event){
   console.log('can you hear me search button')
   let queryTarget= $(event.currentTarget).find('#js-query');
   let findings = queryTarget.val();
-
   queryTarget.val(" ");
-
-  // console.log(findings)
 
     geocodingData(findings);
     renderNotePad();
     fourSqAPI(findings);
-    // getMapData(findings);
-    // renderTitle(findings);
 
-     // secondWolf(findings);
+     secondWolf(findings);
 
    });
 
@@ -47,11 +42,7 @@ function showNoContentfourSection(){
 
 //Wolf Ram API
 function secondWolf(searching){
-
-
  let url = `/wolfram?input=${searching}`
-
-
   $.getJSON(url,function(data){
    //  if (data[1].length === 0) {
    //   return showNoContentwolfSection()
@@ -69,57 +60,39 @@ function renderWolfData(data){
   $("#wolfcontent").html(`<h2 class="conHead">City Info</h2>`);
   $("#wolfcontent").append(`<h5 class="conHead">(Allow Brief Moment to Load)</h5>`);
 
+   let html2 =
 
-
- let html2 =
-
- `<h2>${data.queryresult.pods[1].title}</h2>
-  <p>${data.queryresult.pods[1].subpods[0].plaintext}</p>
-
-<img src ="${data.queryresult.pods[3].subpods[0].img}" alt = map-img>
-
-<h2>${data.queryresult.pods[5].title}</h2>
-<p>${data.queryresult.pods[5].subpods[0].plaintext}</p>
-
-<h2>${data.queryresult.pods[6].title}</h2>
-<p>${data.queryresult.pods[6].subpods[0].plaintext}</p>
-
-<h2>${data.queryresult.pods[7].title}</h2>
-<p>${data.queryresult.pods[7].subpods[0].plaintext}</p>
-
-<h2>${data.queryresult.pods[9].title}</h2>
-<p>${data.queryresult.pods[9].subpods[0].plaintext}</p>
-
-<h2>${data.queryresult.pods[12].title}</h2>
-<p>${data.queryresult.pods[12].subpods[0].plaintext}</p>`
-
-
+   `<h2>${data.queryresult.pods[1].title}</h2>
+      <p>${data.queryresult.pods[1].subpods[0].plaintext}</p>
+        <img src ="${data.queryresult.pods[3].subpods[0].img}" alt = map-img>
+    <h2>${data.queryresult.pods[5].title}</h2>
+      <p>${data.queryresult.pods[5].subpods[0].plaintext}</p>
+    <h2>${data.queryresult.pods[6].title}</h2>
+      <p>${data.queryresult.pods[6].subpods[0].plaintext}</p>
+    <h2>${data.queryresult.pods[7].title}</h2>
+      <p>${data.queryresult.pods[7].subpods[0].plaintext}</p>
+    <h2>${data.queryresult.pods[9].title}</h2>
+      <p>${data.queryresult.pods[9].subpods[0].plaintext}</p>
+    <h2>${data.queryresult.pods[12].title}</h2>
+      <p>${data.queryresult.pods[12].subpods[0].plaintext}</p>`
 
   $("#wolfcontent").append(html2)
-
 
 }
 
 
-//Lat and long Title
+//Ajax call to Geocoding API, then renders LAT/LONG and Title
 function geocodingData(search){
+  let url = `/geo?address=${search}`
+    $.getJSON(url,function(data){
 
+      renderLatLon(data.results[0].geometry.location);
 
-  const params = {
-    q: search,
-    type: "GET"
-  }
-  $.getJSON(url,params,function(data){
+        let html1 = `<h1>${data.results[0].formatted_address}</h1>`
 
-    renderLatLon(data.results[0].geometry.location)
+          $("#title-2").html(html1)
 
-     let html1 = `<h1>${data.results[0].formatted_address}</h1>`
-     // let htmlPost = `<h3 class="cityname">Note Name: ${data.results[0].formatted_address}</h3>`
-
-
- $("#title-2").html(html1)
- // $(".cityname").html(htmlPost)
- renderNotetitle(data.results[0].formatted_address);
+            renderNotetitle(data.results[0].formatted_address);
 
   })
 }
@@ -129,29 +102,14 @@ function geocodingData(search){
 
 function fourSqAPI(search){
 
+    let url = `/four?near=${search}`
+    console.log('can you hear me foursquare')
 
-  console.log('can you hear me foursquare')
-
-
-  params ={
-    url:'/api/four',
-    method:"GET",
-    near:search,
-    v: "20180823",
-    limit:10,
-    error: (error) =>{
-      console.log(error)
-    }
-  }
-
-  $.getJSON(url,params,function(data){
+  $.getJSON(url,function(data){
    //  if (data[1].length === 0) {
    //   return showNoContentfourSection()
    // }
-
-
     const info = data.response.groups[0].items
-
 
     renderFour(info);
   })
@@ -162,21 +120,19 @@ function fourSqAPI(search){
 
 function renderFour(data){
 
-  // $("#restHere").html(" ");
+
   $("#restHere").html(`<h2 class="conHead">Local Popular Destinations</h2>`);
 
-// console.log(data)
-let html = '<ul class="rest-list">'
-  data.forEach(function(result){
-console.log(result)
+    let html = '<ul class="rest-list">'
+      data.forEach(function(result){
 
     html +=
 
     `<li class="restcontent">
       <h2 class="restTitle">${result.venue.name}</h2>
-      <p class="restType">Type of place: ${result.venue.categories[0].name}</p>
-      <p class="restLoc">${result.venue.location.address}</p>
-      <p class="restCity">${result.venue.location.city},${result.venue.location.state}</p>
+        <p class="restType">Type of place: ${result.venue.categories[0].name}</p>
+        <p class="restLoc">${result.venue.location.address}</p>
+        <p class="restCity">${result.venue.location.city},${result.venue.location.state}</p>
     </li>`
   })
   html += '</ul>';
@@ -203,13 +159,9 @@ function renderNotetitle(data){
 //Render Latitude and Long
 function renderLatLon(data){
   $("#latlon").html(" ")
-let html = `<h2 class="latlon">${data.lat},${data.lng}</h2>`
+    let html = `<h2 class="latlon">${data.lat},${data.lng}</h2>`
 
-// console.log(data)
-
- $("#latlon").html(html)
-
-
+    $("#latlon").html(html)
 }
 
 
@@ -368,10 +320,6 @@ $(function(){
       });
 
 
-// $(function(){
-//
-// })
-
 
     // Render Home Tab all info
       $(function(){
@@ -410,23 +358,17 @@ $(document).on('click','.delete-but',(event)=>{
       })
         renderGetallData();
       if(response){
-
         $('#cityname').val(" ");
         $('#pros').val(" ");
         $('#cons').val(" ");
-
       }
-
     },
     error:(error)=>{
       console.log(JSON.stringify(error) + 'the post error man')
       }
-        })
-
-      });
-
-
+      })
     });
+  });
 
 
 
@@ -472,7 +414,7 @@ $(document).on('click','.delete-but',(event)=>{
 
 
       //register button
-      $(function(){
+    $(function(){
       $(document).on('click','.create-but',function(event){
         event.preventDefault();
         console.log('can you hear me register button')
@@ -481,36 +423,35 @@ $(document).on('click','.delete-but',(event)=>{
         const firstName= $('#regfirst').val();
         const lastName= $('#reglast').val();
 
-        console.log(username)
-        console.log(lastName)
-          $.ajax({
-              url: '/api/users',
-              type:"POST",
-              data: JSON.stringify({
-                username:username,
-                password:password,
-                firstName:firstName,
-                lastName:lastName
-              }),
-              success: function(response){
-                console.log(JSON.stringify(response))
-                if(response){
-                  $('#reguser').val('');
-                  $('#regpass').val('');
-                  $('#regfirst').val('');
-                  $('#reglast').val('');
-                }
-        },
-            headers: {
-          'Content-Type': 'application/json',
-        },
-        error:(err)=>{
-          console.log(JSON.stringify(err) + 'this be de eerrrrooorrrrr')
-              }
-            });
+        $.ajax({
+          url: '/api/users',
+          type:"POST",
+          data: JSON.stringify({
+            username:username,
+            password:password,
+            firstName:firstName,
+            lastName:lastName
+          }),
+          success: function(response){
+            console.log(JSON.stringify(response))
+            if (response) {
+              $('#reguser').val('');
+              $('#regpass').val('');
+              $('#regfirst').val('');
+              $('#reglast').val('');
+            }
+
             location.reload();
-          });
-        })
+          },
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          error:(err)=> {
+            console.log(JSON.stringify(err) + 'this be de eerrrrooorrrrr')
+          }
+        });
+      });
+    })
 
 
 
@@ -541,15 +482,13 @@ $(document).on('click','.delete-but',(event)=>{
               loginTransition();
             }
           },
-
         error: (error)=>{
           console.log(JSON.stringify(error) + 'this be the eerrrrooorrrrr')
         }
+      });
+    })
+  })
 
-        });
-
-        })
-      })
 
 //Log out function
   function logoutfunct(){
