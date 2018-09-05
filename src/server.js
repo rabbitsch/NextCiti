@@ -19,8 +19,8 @@ const routerPoint = require('./routers/router-points');
 const wolframRouter = require('./routers/router-wolf');
 const userRouter = require('./routers/users-router');
 const authRouter = require('./routers/router-auth');
-const notesRouter = require('./routers/notes-router');
 const fourRouter = require('./routers/router-four');
+const geoRouter = require('./routers/router-geo');
 const pkg = require('../package.json');
 const { DATABASE_URL, PORT } = require('./config');
 const app = express();
@@ -46,8 +46,8 @@ app.use('/api',authRouter);
 app.use('/api',routerPoint);
 app.use('/api/users',userRouter);
 app.use('/wolfram', wolframRouter);
-app.use('/api/notes', notesRouter);
 app.use('/four', fourRouter);
+app.use('/geo', geoRouter);
 
 
 // app.get('/', (req, res) => res.end(`NextCiti API ${pkg.version}`))
