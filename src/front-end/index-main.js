@@ -234,7 +234,7 @@ let noteData = [];
 
     //Render GET html.. The "your notes" section
 function renderGetallData(){
-      // console.log(data)
+      
 
       let html = '<ul class="mynoteitems">'
       noteData.forEach(value =>{
