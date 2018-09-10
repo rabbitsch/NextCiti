@@ -160,7 +160,7 @@ function renderNotetitle(data){
 $(document).on('click','#postNote',function(event){
   event.preventDefault();
   console.log('can you hear me post button')
-  const name= $("#formpost").children().children("#cityname").text()
+  const name= $('#formpost').children().children().children().children("#cityname").text()
   const pros= $('#pros').val();
   const cons= $('#cons').val();
 
