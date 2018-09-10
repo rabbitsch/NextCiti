@@ -6,6 +6,6 @@ deploy:
   provider: heroku
   api_key:
     secure: C5gvKPjVovnWO03VXsIjlmAcPZ/S8oXrzpzJbuNEy9Tw1PB2+vlELsvclrJIOV2mANQpgI6pc07cehGVSV332Gbfzck630bJvuKeri/QwOEgiwcClFXt41HN3/5m7HMmehFMRDCjitKJANXF7zhhCQ0MRQVraFPBBLBalJYF8K/tIJ+qLo29Krk3/bWCsjVSbh1baqJVd+jwSo7cjMBXgEvk7jJgcERHnGZUEz9Vm9xTcFdK7rz0/QGPylho2ex8kjnceKe/iVduErZQAnxSv7p+5zq0kWoSESrOktPVVdN2S5ULJdMmtAhOXEaBXkQJre6lZxhDmvLXdmjmmP2iBQQ/utygT4L+TAKTaBNimD0hVfdo0DPNTPzU/cBQYHyxYgBZKIZIFt9DE2qaoplUOabpCdtopQeUE7MjGyWzgnqSmrLMF9WCVcZ8+PSWQENIsdfGb5ryfOR5wMk6Bawg8C61WE9Ur+ZN4VkzKEKSGUQ1josuPd5pxk3z8UIPavbyBLrgPtj+kmXWN2ZHR4VSMcc4RqDhf7oRos3gtno+D0ZM816Cag8BLYsX/aa/02OW2X0DWt04XrvxCqzpb0tirQwOzeV/ZkjGhcFrmD3UqZr4W8ZQev+Yde8ddgwZczhce9ugJLz7YA04eBrTYbeTc7Bl3tQP3nHU3C2tFJNnsXk=
-  app: floating-ocean-19353
+  app: nextciti
   on:
     repo: rabbitsch/NextCiti
