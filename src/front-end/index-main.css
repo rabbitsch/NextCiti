@@ -95,6 +95,26 @@ color: red;
   background: none;
   background: rgba(255, 255, 255, 0.5);
 }
+
+#js-query,.sub-but-search{
+  font-size: 40px;
+  border-radius: 0px;
+  margin-bottom: 30px;
+}
+
+.sub-but-search:hover{
+  background: darkred;
+}
+
+.sub-but-search{
+  border: 3px solid red;
+  letter-spacing: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  transition: color 0.25s linear;
+  text-shadow: 0 0 3px #555555;
+
+}
+
 ::placeholder {
     color: red;
     opacity: 1;
@@ -110,7 +130,7 @@ color: red;
 
 
 
-.sub-but-log,.sign-but,.create-but,.sub-but-search{
+.sub-but-log,.sign-but,.create-but{
   border: 3px solid red;
   padding: 8px 13px;
   color: ghostwhite;

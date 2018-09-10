@@ -594,11 +594,11 @@ function loginTransition(){
      <section class="container-form" role="region">
         <div class="row">
             <div class="col-7 offset-3">
+
               <form action="#" id="daformsearch">
                 <label for="js-query"></label>
-                <input type="text" placeholder= "Type in a Citi to Explore" id="js-query">
-                </input>
-              <button class="sub-but-search" type="submit">NextCiti</button>
+                <input type="text" placeholder= "Type in a Citi to Explore" id="js-query"></input>
+                <input class="sub-but-search" type="submit" value="NextCiti"></input>
               </form>
             </div>
         </div><!-- /.row -->
