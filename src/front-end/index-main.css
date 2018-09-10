@@ -75,7 +75,7 @@ color: red;
   border-bottom: 3px solid ghostwhite;
   border-radius: 0px;
   margin-bottom: 30px;
-  color: white;
+  color: black;
   -webkit-font-smoothing: antialiased;
   font-size: 20px;
   background: none;
@@ -86,7 +86,7 @@ color: red;
   border: 3px solid ghostwhite;
   border-radius: 0px;
   margin-bottom: 30px;
-  color: white;
+  color: black;
   -webkit-font-smoothing: antialiased;
   font-size: 40px;
   background: none;
@@ -229,10 +229,7 @@ textarea{
 
 }
 
-/* .latlon{
-  color: azure;
-  font-size: 20pt;
-} */
+
 
 #totalnote{
   color: white;

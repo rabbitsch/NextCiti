@@ -234,7 +234,7 @@ let noteData = [];
 
     //Render GET html.. The "your notes" section
 function renderGetallData(){
-      
+
 
       let html = '<ul class="mynoteitems">'
       noteData.forEach(value =>{
@@ -276,7 +276,7 @@ $(function(){
 
 
     $.ajax({
-      url: `/api/city-reviews/${noteId}`, //Have joel review
+      url: `/api/city-reviews/${noteId}`,
       type:"PUT",
       data:({
         name:newName,
@@ -292,7 +292,7 @@ $(function(){
           console.log("can you hear me put success")
 
 
-          //Become text area?
+
           name.val(" ");
           pros.val(" ");
           cons.val(" ");
@@ -595,7 +595,7 @@ function loginTransition(){
         <div class="row">
             <div class="col-7 offset-3">
 
-              <form action="#" id="daformsearch">
+              <form action="#" id="daformsearch" role="search">
                 <label for="js-query"></label>
                 <input type="text" placeholder= "Type in a Citi to Explore" id="js-query"></input>
                 <input class="sub-but-search" type="submit" value="NextCiti"></input>
