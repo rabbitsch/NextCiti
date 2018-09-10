@@ -106,7 +106,7 @@ color: red;
 .sub-but-search{
   border: 3px solid red;
   letter-spacing: 2px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.7);
   transition: color 0.25s linear;
   text-shadow: 0 0 3px #555555;
 
