@@ -20,7 +20,7 @@ Passord: password
 
 
 # Summary
-The User logs in and types in a city in the search bar. A notepad and content is rendered. User reviews information on popular local restaurants, hikes, museums. At the bottom of the page is insight into average salary, current weather, demographics, local time and neighboring towns. Links to jobs posts and apartments are available in the navigation menu. User writes pros/cons of each city and post them into their own person note page, made availabe to them in the nav menu. User can update or delete notes as they wish.
+The User logs in and types a city in the search bar. A notepad and content is then rendered. The user reviews information on popular local restaurants, hikes, museums, etc. At the bottom of the page is insight into the cities average salary, current weather, demographics, local time and neighboring towns. Links to jobs posts and apartments are available in the navigation menu. User writes pros/cons of each city and post them into their own personal note page, made availabe to them in the nav menu. User can update or delete notes as they wish.
 
 # Technology
 Node.Js, Express, Mocha/Chai, Javascript, jQuery, HTML, CSS, MongoDB, Mongoose. 
