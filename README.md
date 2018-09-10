@@ -4,6 +4,7 @@
 # Live Demo: https://floating-ocean-19353.herokuapp.com/
 
 Demo Login (no caps)
+
 Username: demo
 Passord: password
 
@@ -12,6 +13,9 @@ Passord: password
 
 ![alt tag](https://s3-us-west-1.amazonaws.com/schmitzbucket/Screenshots/Screen+Shot+2018-09-10+at+1.12.25+PM.png)
 ![alt tag](https://s3-us-west-1.amazonaws.com/schmitzbucket/Screenshots/Screen+Shot+2018-09-10+at+1.12.49+PM.png)
+
+![alt tag](https://s3-us-west-1.amazonaws.com/schmitzbucket/Screen+Shot+2018-09-10+at+1.36.41+PM.png)
+
 
 
 ![alt tag](https://s3-us-west-1.amazonaws.com/schmitzbucket/Screenshots/Screen+Shot+2018-09-10+at+1.16.20+PM.png)
