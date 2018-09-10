@@ -1,7 +1,7 @@
 # NextCiti
 
 
-# Live Demo: https://nextciti.herokuapp.com/
+# Live Demo: https://floating-ocean-19353.herokuapp.com/
 
 Demo Login (no caps)
 
