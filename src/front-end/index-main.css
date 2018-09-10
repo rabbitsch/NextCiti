@@ -31,11 +31,9 @@ background-size: cover;
   font-family: 'PT Mono', monospace;
 	font-size: 8vw;
 	letter-spacing: 4px;
-  /* border:5px solid white; */
 	width: 245px;
-	/* margin-top: 32px; */
-	/* padding-top: 7px;
-	padding-left: 5px; */
+  margin-top: 0;
+  margin-bottom: 0;
   padding: 30px 30px;
 	top: 255px;
 	left: 40%;
@@ -60,7 +58,9 @@ color: red;
   font-size: 20px;
   text-align: center;
   color:ghostwhite;
-  border-radius: 2%;
+
+
+  padding-bottom: 30px;
 
 }
 
@@ -127,11 +127,11 @@ color: red;
 #postNote, .update-but, .delete-but{
   border: 3px solid red;
   padding: 8px 13px;
-  color: ghostwhite;
+  color: black;
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 2px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.7);
   transition: color 0.25s linear;
   text-shadow: 0 0 3px #555555;
   /* position: relative; */
@@ -140,12 +140,19 @@ color: red;
 }
 
 #citynameHere{
-  color:lightgray;
+  color:black;
 }
+#formpost{
+  border: solid 8px #333;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 3%;
+  padding-bottom: 30px;
+}
+
 
 #noteHeader{
   color: lightblue;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 
@@ -157,6 +164,7 @@ color: red;
   padding-bottom: 20px;
   padding-top: 0px;
 
+
   width: 100%;
   /* list-style: none; */
   line-height: 120%;
@@ -166,29 +174,34 @@ button:hover{
   background: darkred;
 }
 
-/* .job-but{
-  border: 3px solid clear ;
-  padding: 8px 13px;
-  color: ghostwhite;
-  font-size: 20px;
-  font-weight: 400;
-  letter-spacing: 2px;
-  background: rgba(255, 255, 255, 0.25);
-  transition: color 0.25s linear;
-  text-shadow: 0 0 3px #555555;
-  margin-bottom: 40px;
-  border-radius: 10px;
+.no-content-message{
+  color: red;
+  font-size: 20pt;
+}
 
-} */
 
-#wolfcontent{
-  color: white;
+.reg-err{
+  color: red;
+}
+.wolfcon{
+  border: solid 8px #333;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 3%;
+  padding-bottom: 30px;
+}
+
+.wolftitle{
+  color: black;
+}
+
+.wolfInfo{
+  color: red;
 }
 
 textarea{
   background: lightgrey;
   color: red;
-  border: 3px solid silver;
+  border: 3px solid black;
   border-radius: 5px;
   height:auto;
   font-size: 15pt;
@@ -199,12 +212,10 @@ textarea{
 
 }
 
-.latlon{
+/* .latlon{
   color: azure;
   font-size: 20pt;
-/* text-shadow: 5px 5px 5px whitesmoke;  */
-
-}
+} */
 
 #totalnote{
   color: white;
@@ -221,12 +232,11 @@ textarea{
 
 .navbar {
     overflow: hidden;
-    /* background-color: #333; */
-
+    background-color: #333;
+    /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 .navbar a {
-    /* padding-top: 20px; */
     float: left;
     font-size: 16px;
     color: white;
@@ -235,8 +245,10 @@ textarea{
     text-decoration: none;
 }
 
-
-
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
 
 .dropdown .dropbtn {
     cursor: pointer;
@@ -250,11 +262,25 @@ textarea{
     margin: 0;
 }
 
-.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
-    background-color: red;
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
 }
 
-
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
 
 .dropdown-content a:hover {
     background-color: #ddd;
@@ -264,15 +290,8 @@ textarea{
     display: block;
 }
 
-
-.dropdown-content a:hover {background-color: #ddd}
-
-
-.show {display:block;}
-
-
 .rest-list{
-  border: solid 5px black;
+  border: solid 8px #333;
   display: inline-block;
   background: rgba(255, 255, 255, 0.7);
   border-radius: 3%;
@@ -291,6 +310,11 @@ textarea{
 .conHead{
   font-size: 35px;
   color: lightblue;
+}
+
+.conHead1{
+  font-size:30px;
+  color:lightblue;
 }
 
 li {

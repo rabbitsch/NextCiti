@@ -6,7 +6,7 @@ const router = express.Router();
 const WOLFRAM_BASE_URL = 'http://api.wolframalpha.com/v2/query'
 const WOLFRAM_APP_ID = process.env.WOLFRAM_APP_ID
 
-// console.log({ WOLFRAM_APP_ID: process.env.WOLFRAM_APP_ID });
+
 
 const WOLFRAM_API_URL = `${WOLFRAM_BASE_URL}?appid=${WOLFRAM_APP_ID}&output=json`
 

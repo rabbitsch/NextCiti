@@ -30,7 +30,7 @@ router.get('/whoami', jwtAuth, (req, res) => {
 
 
 router.post('/',jsonParser,(req,res) =>{
-  console.log('new user');
+  
   const requiredFields = ['username','password'];
   const missingFields = requiredFields.find(field => !(field in req.body));
 

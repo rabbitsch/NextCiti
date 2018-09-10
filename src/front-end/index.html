@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang ="en">
   <head>
     <meta charset="utf-8">
-    <meta name="description" content="Learn about new cities to move to">
+    <meta name="description" content="Learn about new cities">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="viewport" content="width=device-width">
     <title>NextCiti</title>
@@ -13,8 +13,8 @@
   </head>
   <body>
 <section id="containerMain" role="region">
-  <section id="containerHidelogin">
-    <header>
+  <section id="containerHidelogin" role="region">
+    <header role="banner">
       <div class="row">
         <div class="col-12">
           <div id="topTile">
@@ -25,7 +25,7 @@
       </div>
 
     </header>
-  <main>
+  <main role="main">
         <section class="row" role="region">
           <div class="col-5 offset-1">
             <div class="content-box">
@@ -45,16 +45,19 @@
           <div class="contentformlogin">
             <div id="formcontentlogin">
               <form action="#" id="daformlog">
+
                 <label for="username-signin"></label>
-                <input type="text" placeholder= "Username" id="loguser">
+                <input type="text" placeholder= "Username" id="loguser" required/>
                 </input>
                 <label for="password-signin"></label>
-                <input type="text" placeholder= "Password" id="logpass">
+                <input type="text" placeholder= "Password" id="logpass" required/>
                 </input>
                 </div>
                 <button class="sub-but-log" type="submit">Sign In
                 </button>
                 <button class="sign-but">Sign up</button>
+              
+
 
              </form>
              <div id="showError"></div>

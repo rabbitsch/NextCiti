@@ -28,7 +28,7 @@ router.get('/city-reviews', jwtAuth, (req,res) =>{
 
 //my Get mongo endpoint by ID
 router.get('/city-reviews/:id',(req,res) => {
-  console.log(req.params)
+
 
   City.findById(req.params.id)
     .then(post => res.json(post.serialize()))
@@ -41,7 +41,7 @@ router.get('/city-reviews/:id',(req,res) => {
 //My Post Endpoint for Mongo
 router.post('/city-reviews', (req,res) => {
   const requiredkeys = ['name','pros','cons','user'];
-  // console.log({ req });
+
   for(let i = 0;i<requiredkeys.length;i++){
     const selector = requiredkeys[i];
     if(!(selector in req.body)){

@@ -11,29 +11,24 @@ $(document).on('submit','#daformsearch',function(event){
     renderNotePad();
     fourSqAPI(findings);
 
-    secondWolf(findings);
+    // secondWolf(findings);
 
    });
 
 });
 
-//Edge case for Search Wolf
-function showNoContentwolfSection(){
-  return $("#wolfcontent").html(`<section class="row" role="region">
-          <div class="col-12">
-            <p class="no-content-message">Unable to find results. Try searching for another city.
-          </div>
-        </section>`)
-}
+
 
 
 //Edge case for Search Foursquare
-function showNoContentfourSection(){
-  return $("#restHere").html(`<section class="row" role="region">
+function showNoContentError(){
+  $(".showMyError").show();
+  return $(".showMyError").html(`<section class="row" role="region">
           <div class="col-12">
             <p class="no-content-message">Unable to find results. Try searching for another city.
           </div>
         </section>`)
+
 }
 
 
@@ -44,10 +39,8 @@ function showNoContentfourSection(){
 function secondWolf(searching){
  let url = `/wolfram?input=${searching}`
   $.getJSON(url,function(data){
-   //  if (data[1].length === 0) {
-   //   return showNoContentwolfSection()
-   // }
-    // console.log(data.queryresult.pods[1])
+
+
     renderWolfData(data);
   })
 }
@@ -58,23 +51,24 @@ function secondWolf(searching){
 function renderWolfData(data){
 
   $("#wolfcontent").html(`<h2 class="conHead">City Info</h2>`);
-  $("#wolfcontent").append(`<h5 class="conHead">(Allow Brief Moment to Load)</h5>`);
+
 
    let html2 =
 
-   `<h2>${data.queryresult.pods[1].title}</h2>
-      <p>${data.queryresult.pods[1].subpods[0].plaintext}</p>
-        <img src ="${data.queryresult.pods[3].subpods[0].img}" alt = map-img>
-    <h2>${data.queryresult.pods[5].title}</h2>
-      <p>${data.queryresult.pods[5].subpods[0].plaintext}</p>
-    <h2>${data.queryresult.pods[6].title}</h2>
-      <p>${data.queryresult.pods[6].subpods[0].plaintext}</p>
-    <h2>${data.queryresult.pods[7].title}</h2>
-      <p>${data.queryresult.pods[7].subpods[0].plaintext}</p>
-    <h2>${data.queryresult.pods[9].title}</h2>
-      <p>${data.queryresult.pods[9].subpods[0].plaintext}</p>
-    <h2>${data.queryresult.pods[12].title}</h2>
-      <p>${data.queryresult.pods[12].subpods[0].plaintext}</p>`
+   `<section class="wolfcon">
+      <h2 class="wolftitle">${data.queryresult.pods[1].title}</h2>
+        <p class="wolfInfo">${data.queryresult.pods[1].subpods[0].plaintext}</p>
+      <h2 class="wolftitle">${data.queryresult.pods[5].title}</h2>
+        <p class="wolfInfo">${data.queryresult.pods[5].subpods[0].plaintext}</p>
+      <h2 class="wolftitle">${data.queryresult.pods[6].title}</h2>
+        <p class="wolfInfo">${data.queryresult.pods[6].subpods[0].plaintext}</p>
+      <h2 class="wolftitle">${data.queryresult.pods[7].title}</h2>
+        <p class="wolfInfo">${data.queryresult.pods[7].subpods[0].plaintext}</p>
+      <h2 class="wolftitle">${data.queryresult.pods[9].title}</h2>
+        <p class="wolfInfo">${data.queryresult.pods[9].subpods[0].plaintext}</p>
+      <h2 class="wolftitle">${data.queryresult.pods[12].title}</h2>
+        <p class="wolfInfo">${data.queryresult.pods[12].subpods[0].plaintext}</p>
+    </section>`
 
   $("#wolfcontent").append(html2)
 
@@ -86,16 +80,19 @@ function geocodingData(search){
   let url = `/geo?address=${search}`
     $.getJSON(url,function(data){
 
-      renderLatLon(data.results[0].geometry.location);
+      if(!data.results.length){
+        return showNoContentError()
 
-        let html1 = `<h1>${data.results[0].formatted_address}</h1>`
+      }
 
-          $("#title-2").html(html1)
+        $(".showMyError").hide();
+          let html1 = `<h1>${data.results[0].formatted_address}</h1>`
+            $("#title-2").html(html1)
 
-            renderNotetitle(data.results[0].formatted_address);
-
+      renderNotetitle(data.results[0].formatted_address);
   })
 }
+
 
 
 //Restaurant API tap
@@ -106,12 +103,12 @@ function fourSqAPI(search){
     console.log('can you hear me foursquare')
 
   $.getJSON(url,function(data){
-   //  if (data[1].length === 0) {
-   //   return showNoContentfourSection()
-   // }
-    const info = data.response.groups[0].items
 
-    renderFour(info);
+
+     const info = data.response.groups[0].items
+      renderFour(info);
+
+
   })
 }
 
@@ -122,6 +119,7 @@ function renderFour(data){
 
 
   $("#restHere").html(`<h2 class="conHead">Local Popular Destinations</h2>`);
+  $("#restHere").append(`<h2 class="conHead1">(Allow Bottom Content Brief Moment to Load)</h2>`);
 
     let html = '<ul class="rest-list">'
       data.forEach(function(result){
@@ -145,9 +143,6 @@ function renderFour(data){
 
 
 
-
-
-
 function renderNotetitle(data){
 
   let htmlPost = `<h3 id="cityname">${data}</h3>`
@@ -156,13 +151,7 @@ function renderNotetitle(data){
 }
 
 
-//Render Latitude and Long
-function renderLatLon(data){
-  $("#latlon").html(" ")
-    let html = `<h2 class="latlon">${data.lat},${data.lng}</h2>`
 
-    $("#latlon").html(html)
-}
 
 
 
@@ -174,7 +163,7 @@ $(document).on('click','#postNote',function(event){
   const name= $("#formpost").children().children("#cityname").text()
   const pros= $('#pros').val();
   const cons= $('#cons').val();
-  console.log(name)
+
 
   $.ajax('/api/users/whoami', {
     headers: {
@@ -182,7 +171,7 @@ $(document).on('click','#postNote',function(event){
     }
   })
     .then((data, txtStatus, jqXHR) => {
-      console.log(data, txtStatus)
+
 
       return $.ajax({
         url: '/api/city-reviews',
@@ -200,7 +189,7 @@ $(document).on('click','#postNote',function(event){
       })
     })
     .then((res) => {
-      console.log(name)
+
 
       if(res) {
         $('#cityname').val('');
@@ -231,7 +220,7 @@ let noteData = [];
         // type:"GET",
         success:function(data){
           noteData = data
-          console.log(data)
+
               renderGetallData();
         },
         dataType:"json",
@@ -249,7 +238,7 @@ function renderGetallData(){
 
       let html = '<ul class="mynoteitems">'
       noteData.forEach(value =>{
-        console.log(value)
+
         html += `
     <li class="note-list">
       <section id="totalnote">
@@ -279,7 +268,7 @@ $(function(){
       event.preventDefault();
       console.log("can you hear me update docu thingy")
       const noteId = $(event.currentTarget).siblings('.noteid').text()
-      console.log(noteId)
+
       const newName= $(event.currentTarget).siblings('.notetitle').text()
       const newPros= $(event.currentTarget).siblings('.notepro').val()
       const newCons= $(event.currentTarget).siblings('.notecon').val()
@@ -340,7 +329,7 @@ $(document).on('click','.delete-but',(event)=>{
   event.preventDefault();
   console.log("can you hear me delete button")
   const noteId = $(event.currentTarget).siblings('.noteid').text()
-  console.log(noteId)
+
 
 
   $.ajax({
@@ -389,6 +378,7 @@ $(document).on('click','.delete-but',(event)=>{
             <div class="content-box">
               <div id="formcontentreg">
                 <form action="#" id="daformreg">
+
                   <label for="registeruser"></label>
                     <input type="text" placeholder= "Username" id="reguser">
                     </input>
@@ -403,6 +393,7 @@ $(document).on('click','.delete-but',(event)=>{
                     </input>
                   <button class="create-but" type="submit">Create Login
                   </button>
+
                 </form>
               </div>
             </div>
@@ -433,7 +424,7 @@ $(document).on('click','.delete-but',(event)=>{
             lastName:lastName
           }),
           success: function(response){
-            console.log(JSON.stringify(response))
+
             if (response) {
               $('#reguser').val('');
               $('#regpass').val('');
@@ -474,7 +465,7 @@ $(document).on('click','.delete-but',(event)=>{
             password:password
           }),
           success: function(response){
-            console.log(response)
+
             sessionStorage.setItem('token', response.authToken);
             if(response){
               $('#loguser').val(" ");
@@ -484,10 +475,18 @@ $(document).on('click','.delete-but',(event)=>{
           },
         error: (error)=>{
           console.log(JSON.stringify(error) + 'this be the eerrrrooorrrrr')
+          handleErrorJWT(error);
         }
       });
     })
   })
+
+// Login ERROR handle
+  function handleErrorJWT(err){
+  $('#showError').html(`
+    <p class="reg-err">Incorrect username or password.</p>
+  `);
+}
 
 
 //Log out function
@@ -500,19 +499,23 @@ $(document).on('click','.delete-but',(event)=>{
 
 //Render Note pad
 function renderNotePad(){
+
+
+  $("#myPostFormRen").html(`<h2 id="noteHeader">Enter Your Notes Here</h2>`);
+
   let htmlPad =     `
-    <div class = "row">
-      <div class ="col-12">
+
         <form id="formpost">
-          <h2 id="noteHeader">Enter Your Notes Here</h2>
+          <div class = "container-note" role="region">
+          <div class ="cont-note">
             <h3 id ="citynameHere"></h3>
               <textarea id="pros" rows = "4" style = "width: 50%" name="comment" form="usrform">Enter Pros text here...</textarea>
               <textarea id="cons" rows = "4" style = "width: 50%" name="comment" form="usrform">Enter Cons text here...</textarea>
-      </div>
-          <button id="postNote">Post Note</button>
-  </div>
+          </div>
+              <button id="postNote">Post Note</button>
+          </div>
       </form>`
-      $("#myPostFormRen").html(htmlPad)
+      $("#myPostFormRen").append(htmlPad)
 }
 
 
@@ -530,27 +533,40 @@ function loginTransition(){
 
   }
 }
+
+
+
+
+
 //Render main page
   function renderMainPage(){
     let htmlAll = `<header role ="banner">
        <div class="row">
          <div class="col-10 offset-1">
-           <nav class="navbar">
-             <form id="homeward">
-               <a href="#home" onclick ="renderHome()" id="homebut">Home</a>
-             </form>
-             <form id="formgetall">
-                 <a id="but-sub-getall" onclick="renderGetallData()"type="submit">Your Notes
-                 </a>
-              </form>
-               <a class="job-but" href = "https://www.indeed.com" target="_blank">Local Jobs</a>
-               <a class ="job-but" href = "https://www.craigslist.org" target="_blank">Apartments</a>
-               <a class="job-but" href ="https://rabbitsch.github.io/Hobbist2/" target="_blank"> Learn a new Hobby!</a>
 
-               <a href ="#logout" onclick="logoutfunct()" id="logoutlink">Log out</a>
+            <nav class="navbar" role="navigation">
+              <div class="dropdown">
+                <button class="dropbtn" onclick="myDropMenu()">Navigation Menu
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content" id="myDropdown">
+                    <form id="homeward">
+                      <a href="#home" onclick ="renderHome()" id="homebut">Home</a>
+                    </form>
+                    <form id="formgetall">
+                      <a id="but-sub-getall" onclick="renderGetallData()"type="submit">Your Notes
+                      </a>
+                    </form>
+                      <a class="job-but" href = "https://www.indeed.com" target="_blank">Local Jobs</a>
+                      <a class ="job-but" href = "https://www.craigslist.org" target="_blank">Apartments</a>
+                      <a class="job-but" href ="https://rabbitsch.github.io/Hobbist2/" target="_blank"> Learn a new Hobby!</a>
+                      <a href ="#logout" onclick="logoutfunct()" id="logoutlink">Log out</a>
+                </div>
+              </div>
             </nav>
         </div>
       </div>
+
         <div class="col-10 offset-1">
           <div id="topTile">
             <h1 id="title"></h1>
@@ -568,7 +584,7 @@ function loginTransition(){
       </div> <!--/# ending the row -->
 
     </header>
-  <main>
+  <main role="main">
     <div class="row">
         <div class="col-10 offset-1">
           <section id="getnotes"></section>
@@ -582,15 +598,19 @@ function loginTransition(){
                 <label for="js-query"></label>
                 <input type="text" placeholder= "Type in a Citi to Explore" id="js-query">
                 </input>
-              <button class="sub-but-search" type="submit">NextCiti
-              </button>
+              <button class="sub-but-search" type="submit">NextCiti</button>
               </form>
             </div>
         </div><!-- /.row -->
       </section><!-- /.container-form -->
-      <section class = "container-note" role="region">
-          <div id="myPostFormRen"></div>
-      </section>
+      <div class = "row">
+        <div class ="col-10 offset-1">
+          <section class="showMyError"></section>
+
+            <section id="myPostFormRen" role="region"></section>
+
+        </div>
+      </div>
     <div class="city-contents"  aria-live="assertive" role="region">
     <div class="row">
       <div class="col-10 offset-1">
@@ -602,33 +622,31 @@ function loginTransition(){
     </div>
         <div class="row">
           <div class="col-10 offset-1">
-            <div class="content-box">
+            <div class="content-box" aria-live="assertive">
               <section id="wolfcontent" role="region"></section>
             </div><!-- /.content-box -->
 
           </div><!-- /.col-10 -->
         </div>
 
-        <section class="row" role="region">
-          <div class="col-5 offset-1">
-            <div class="content-box">
-              <div id="mapcontent">
-                <div id="map">
-                </div>
-              </div>
-            </div>
 
-          </div>
-          <div class="col-5">
-          <div class="content-box">
-            <div id="yelpcontent">
-              <div class="yelp"></div>
-            </div>
-          </div>
-          </div>
-        </section>
-      </div>
-  </section>`
+  </section>
+<script>
+  function myDropMenu() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(e) {
+      if (!e.target.matches('.dropbtn')) {
+        var myDropdown = document.getElementById("myDropdown");
+          if (myDropdown.classList.contains('show')) {
+            myDropdown.classList.remove('show');
+          }
+        }
+      }
+</script>
+  `
 
 $("#containerHidelogin").hide();
   $("#containerMain").html(htmlAll)

@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
       client_id: FOURCLIENT_ID,
       client_secret: FOURCLIENT_SECRET,
       v: '20180823',
-      limit: 15
+      limit: 10
 
     }
   })

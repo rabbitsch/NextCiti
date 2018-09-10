@@ -118,11 +118,8 @@ describe('testing GET endpoints', function(){
       .then(_res =>{
         res = _res;
         expect(res).to.have.status(200);
-        // return City.count();
+
       })
-      // .then(count =>{
-      //   res.body.should.have.lengthOf(count);
-      // })
   });
 
   it('should test posts with correct fields',function(){
@@ -143,21 +140,13 @@ describe('testing GET endpoints', function(){
       .then(function(res){
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        // console.log(this.user._id, '>>>>>')
-        // expect(res.body).to.be.a('object');
-        // res.body.should.have.lengthOf.at.least(1);
-
         res.body.forEach(data=>{
           expect(data).to.include.keys('id','name','pros','cons');
         });
         respPost = res.body[0];
-        // return City.findById(respPost.id);
+
       })
-      // .then(post =>{
-      //   expect(respPost.name).to.equal(post.name);
-      //   expect(respPost.pros).to.equal(post.pros);
-      //   expect(respPost.cons).to.equal(post.cons);
-      // })
+
   });
 
 });
@@ -169,11 +158,11 @@ describe('testing POST endpoints', function(done){
       .then(host =>{
 
         const user1 = preAuthHost(host)
-        console.log(user1)
+
         let authToken = createAuthToken(user1);
         // console.log('>>>>',{newUserid})
-        console.log(authToken)
-    
+
+
 
 })
 return chai.request(app)
@@ -203,15 +192,8 @@ return chai.request(app)
         expect(res).to.be.json;
         expect(res.body).to.be.a('object');
         expect(res.body).to.include.keys('name','pros','cons');
-        // expect(res.body.name).to.equal(newName);
-        // expect(res.body.pros).to.equal(newPros);
-        // expect(res.body.cons).to.equal(newCons);
-        // return City.findbyId(res.body.id);
      })
-   // .catch((error) => {
-   //      assert.isNotOk(error,'Promise error');
-   //      done();
-   //    });
+
     });
   });
 
@@ -233,7 +215,7 @@ return chai.request(app)
           cons:newCons
         })
       const updatedContent = {
-        // id: faker.random.uuid(),
+
         name: faker.address.city(),
         pros: faker.lorem.words(),
         cons: faker.lorem.words()
@@ -241,7 +223,7 @@ return chai.request(app)
 
       return City.findOne()
         .then(note =>{
-          // note.id = updatedContent.id;
+        
 
           return chai.request(app)
             .put(`/api/city-reviews/${id}`)
